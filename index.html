@@ -44,7 +44,7 @@
   </script>
 
   <style>
-    /* Base smooth typography & subtle paper texture */
+    /* Base smooth typography & warm ivory backdrop */
     body {
       background-color: #FAF6F0;
       color: #2D2424;
@@ -114,6 +114,20 @@
       animation: waveDance 0.9s infinite ease-in-out;
     }
 
+    /* Floating music toggle equalizer bars */
+    @keyframes eqBounce {
+      0%, 100% { transform: scaleY(0.3); }
+      50% { transform: scaleY(1); }
+    }
+    .eq-bar {
+      transform-origin: bottom;
+      transform: scaleY(0.35);
+      transition: transform 0.25s ease;
+    }
+    .music-playing .eq-bar {
+      animation: eqBounce 0.85s infinite ease-in-out;
+    }
+
     /* Hide scrollbar for horizontal trip carousel */
     .no-scrollbar::-webkit-scrollbar {
       display: none;
@@ -152,6 +166,18 @@
       box-shadow: 0 2px 6px rgba(107, 29, 47, 0.35);
       cursor: pointer;
     }
+
+    /* Cinematic Photo Reel Ken Burns zoom animation */
+    @keyframes reelKenBurns {
+      0% { transform: scale(1); }
+      100% { transform: scale(1.08); }
+    }
+    .reel-slide-active .reel-photo-zoom {
+      animation: reelKenBurns 4.2s ease-out forwards;
+    }
+    .reel-paused .reel-photo-zoom {
+      animation-play-state: paused;
+    }
   </style>
 </head>
 <body class="min-h-screen bg-ivory text-ink antialiased selection:bg-maroon/15 selection:text-maroon">
@@ -164,9 +190,7 @@
     class="fixed inset-0 z-50 flex items-center justify-center bg-ivory px-4 py-8 transition-opacity duration-700 overflow-y-auto"
     aria-label="Private Keepsake Vault Login"
   >
-    <!-- Ornate Outer Frame -->
     <div class="relative w-full max-w-md rounded-3xl border border-gold-bright/50 bg-ivory-card p-2 shadow-[0_20px_60px_rgba(107,29,47,0.12)]">
-      <!-- Delicate Gold Inner Border -->
       <div id="loginCard" class="relative rounded-2xl border border-gold-bright/40 px-6 py-8 sm:px-8 sm:py-10">
         <!-- Decorative Corner Accents -->
         <span class="pointer-events-none absolute top-2.5 left-2.5 h-4 w-4 border-t-2 border-l-2 border-gold-bright/70 rounded-tl-md"></span>
@@ -175,7 +199,7 @@
         <span class="pointer-events-none absolute bottom-2.5 right-2.5 h-4 w-4 border-b-2 border-r-2 border-gold-bright/70 rounded-br-md"></span>
 
         <!-- Compass & Sparkle Motif -->
-        <div class="flex flex-col items-center text-center mb-6">
+        <div class="mb-6 flex flex-col items-center text-center">
           <div class="mb-3 flex items-center justify-center gap-2 text-gold-bright">
             <svg class="h-3.5 w-3.5 opacity-80" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
               <path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8L12 2z" />
@@ -236,14 +260,12 @@
                 type="button"
                 id="togglePasswordBtn"
                 aria-label="Show password"
-                class="absolute inset-y-0 right-0 flex items-center justify-center px-3.5 text-gold hover:text-maroon transition"
+                class="absolute inset-y-0 right-0 flex items-center justify-center px-3.5 text-gold transition hover:text-maroon"
               >
-                <!-- Eye Open Icon -->
                 <svg id="eyeOpenIcon" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                   <circle cx="12" cy="12" r="3" />
                 </svg>
-                <!-- Eye Closed Icon -->
                 <svg id="eyeClosedIcon" class="hidden h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M3 3l18 18M10.584 10.587a2 2 0 002.828 2.828M9.88 5.09A9.77 9.77 0 0112 5c4.478 0 8.268 2.943 9.542 7a10.45 10.45 0 01-4.132 5.411M6.228 6.228A10.45 10.45 0 002.458 12c1.274 4.057 5.064 7 9.542 7 1.44 0 2.805-.305 4.035-.853" />
                 </svg>
@@ -251,7 +273,6 @@
             </div>
           </div>
 
-          <!-- Keep Me Signed In Checkbox -->
           <label class="flex cursor-pointer items-center gap-2.5 pt-1 text-xs text-ink/75 select-none">
             <input
               id="keepSignedIn"
@@ -262,7 +283,6 @@
             <span>Keep me signed in on this device</span>
           </label>
 
-          <!-- Playful Error Message -->
           <p
             id="loginError"
             role="alert"
@@ -271,7 +291,6 @@
             Hmm, try again! Check the hint above 😉
           </p>
 
-          <!-- Submit Button -->
           <button
             type="submit"
             class="mt-2 flex w-full items-center justify-center gap-2 rounded-xl bg-maroon px-5 py-3.5 text-sm font-semibold tracking-wide text-ivory shadow-[0_10px_24px_rgba(107,29,47,0.28)] transition hover:bg-maroon-dark active:scale-[0.98]"
@@ -296,7 +315,6 @@
     aria-label="Welcome Envelope Seal"
   >
     <div class="relative flex w-full max-w-sm flex-col items-center rounded-3xl border border-gold-bright/45 bg-ivory-card px-8 py-12 shadow-[0_24px_60px_rgba(107,29,47,0.12)]">
-      <!-- Gold inner border -->
       <div class="pointer-events-none absolute inset-2.5 rounded-2xl border border-gold-bright/30"></div>
 
       <p class="text-[11px] font-semibold tracking-[0.3em] text-gold uppercase">
@@ -306,23 +324,19 @@
         #2awaare
       </h2>
 
-      <!-- Decorative divider -->
       <div class="my-6 flex w-36 items-center justify-center gap-2">
         <span class="h-px flex-1 bg-gold-bright/50"></span>
         <span class="h-1.5 w-1.5 rotate-45 bg-gold-bright"></span>
         <span class="h-px flex-1 bg-gold-bright/50"></span>
       </div>
 
-      <!-- Clickable Deep Maroon & Gold Wax Seal -->
       <button
         id="waxSealBtn"
         type="button"
         aria-label="Tap the K and H wax seal to open"
         class="wax-seal-btn group relative my-2 flex h-32 w-32 items-center justify-center rounded-full bg-gradient-to-br from-maroon-light via-maroon to-maroon-dark text-ivory transition-transform duration-300 hover:scale-105 active:scale-95"
       >
-        <!-- Outer scalloped ring -->
         <span class="pointer-events-none absolute inset-1.5 rounded-full border-2 border-dashed border-gold-bright/65"></span>
-        <!-- Inner embossed ring -->
         <span class="pointer-events-none absolute inset-3.5 rounded-full border border-gold-bright/50"></span>
         <span class="font-serif text-3xl font-semibold tracking-wider text-ivory drop-shadow">
           K &amp; H
@@ -330,7 +344,7 @@
       </button>
 
       <p class="mt-6 text-xs font-medium tracking-[0.2em] text-gold uppercase">
-        Tap the seal to open
+        Tap the seal to open our story
       </p>
     </div>
   </section>
@@ -339,239 +353,332 @@
   <!-- 3. MAIN WEBPAGE CONTENT (#mainContent)                                -->
   <!-- ===================================================================== -->
   <main id="mainContent" class="hidden opacity-0 transition-opacity duration-700">
-    <div class="mx-auto max-w-xl px-4 pb-20 pt-10 sm:px-6">
+    <div class="mx-auto max-w-xl px-4 pb-24 pt-10 sm:px-6">
 
       <!-- ================================================================= -->
-      <!-- HEADER: Optional logo.png + Fallback #2awaare Calligraphy         -->
+      <!-- HERO HEADER                                                       -->
       <!-- ================================================================= -->
-      <header class="mb-12 flex flex-col items-center text-center">
-        <!-- Optional Logo (auto-hides gracefully if logo.png is not present) -->
+      <header class="text-center">
+        <!-- Optional Custom Logo (hides cleanly if logo.png is not uploaded) -->
         <img
-          id="customLogo"
           src="logo.png"
           alt="#2awaare Logo"
-          class="mb-4 h-36 w-36 rounded-full object-contain drop-shadow-sm"
-          onerror="this.style.display='none'; document.getElementById('fallbackHeader').classList.remove('hidden');"
+          class="mx-auto mb-4 h-16 w-auto object-contain"
+          onerror="this.style.display='none';"
         />
 
-        <!-- Stylized Fallback Header (shown if logo.png isn't found, or kept clean below) -->
-        <div id="fallbackHeader" class="hidden flex flex-col items-center">
-          <div class="mb-2 inline-flex items-center gap-2 rounded-full border border-gold-bright/40 bg-ivory-card px-3.5 py-1 text-[10px] font-semibold tracking-[0.28em] text-gold uppercase">
-            <span>K &amp; H</span>
-            <span class="text-gold-bright">•</span>
-            <span>Roka Keepsake</span>
-          </div>
-          <h1 class="font-serif text-5xl font-bold tracking-tight text-maroon sm:text-6xl">
-            #2awaare
-          </h1>
-          <p class="mt-2 text-xs font-semibold tracking-[0.32em] text-gold uppercase">
-            OUR JOURNEY BEGINS
-          </p>
-        </div>
+        <p class="text-[11px] font-semibold tracking-[0.32em] text-gold uppercase">
+          K &amp; H • ROKA KEEPSAKE
+        </p>
+        <h1 class="mt-2 font-serif text-5xl font-bold tracking-tight text-maroon sm:text-6xl">
+          #2awaare
+        </h1>
+        <p class="mt-2.5 font-serif text-lg italic text-gold">
+          From June 23rd to Forever
+        </p>
 
-        <!-- Subtle Compass Divider -->
-        <div class="mt-5 flex w-56 items-center justify-center gap-3">
-          <span class="h-px flex-1 bg-gradient-to-r from-transparent to-gold-bright/70"></span>
-          <svg class="h-5 w-5 text-gold-bright" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-            <circle cx="12" cy="12" r="9" stroke-opacity="0.55" />
-            <path d="M12 3l2 7 7 2-7 2-2 7-2-7-7-2 7-2 2-7z" fill="#A67C52" stroke="#6B1D2F" stroke-width="1" />
+        <div class="mx-auto my-6 flex w-44 items-center justify-center gap-2.5">
+          <span class="h-px flex-1 bg-gold-bright/55"></span>
+          <svg class="h-4 w-4 text-maroon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
           </svg>
-          <span class="h-px flex-1 bg-gradient-to-l from-transparent to-gold-bright/70"></span>
+          <span class="h-px flex-1 bg-gold-bright/55"></span>
         </div>
 
-        <p class="mt-4 max-w-sm text-xs leading-relaxed text-ink/65">
-          Tap any Polaroid to flip it and read the note written on the back. Tap the corner icon to zoom in.
+        <p class="mx-auto max-w-sm text-xs leading-relaxed text-ink/70">
+          Tap any Polaroid below to flip it over and read the note written on the back.
         </p>
       </header>
 
       <!-- ================================================================= -->
-      <!-- CHAPTERS CONTAINER (Rendered via JS for clean, exact 17 cards)    -->
+      <!-- CHAPTER I — KEDARNATH                                             -->
       <!-- ================================================================= -->
-      <div id="chaptersContainer" class="space-y-16">
-        <!-- Chapter I — Where It All Started -->
-        <section>
-          <div class="mb-6 text-center">
-            <span class="text-[11px] font-semibold tracking-[0.28em] text-gold uppercase">Chapter I</span>
-            <h2 class="mt-1 font-serif text-2xl font-bold text-maroon sm:text-3xl">Where It All Started</h2>
-          </div>
-          <div id="chapter1Grid" class="space-y-6"></div>
-        </section>
-
-        <!-- Chapter II — Gwalior Diaries -->
-        <section>
-          <div class="mb-6 text-center">
-            <span class="text-[11px] font-semibold tracking-[0.28em] text-gold uppercase">Chapter II</span>
-            <h2 class="mt-1 font-serif text-2xl font-bold text-maroon sm:text-3xl">Gwalior Diaries</h2>
-          </div>
-          <div id="chapter2Grid" class="space-y-6"></div>
-        </section>
-
-        <!-- Chapter III — The Real Us -->
-        <section>
-          <div class="mb-6 text-center">
-            <span class="text-[11px] font-semibold tracking-[0.28em] text-gold uppercase">Chapter III</span>
-            <h2 class="mt-1 font-serif text-2xl font-bold text-maroon sm:text-3xl">The Real Us</h2>
-          </div>
-          <div id="chapter3Grid" class="grid grid-cols-1 gap-6 sm:grid-cols-2"></div>
-        </section>
-
-        <!-- Chapter IV — Little Celebrations & Favorite Corners -->
-        <section>
-          <div class="mb-6 text-center">
-            <span class="text-[11px] font-semibold tracking-[0.28em] text-gold uppercase">Chapter IV</span>
-            <h2 class="mt-1 font-serif text-2xl font-bold text-maroon sm:text-3xl">Little Celebrations &amp; Favorite Corners</h2>
-          </div>
-          <div id="chapter4Grid" class="grid grid-cols-1 gap-6 sm:grid-cols-2"></div>
-        </section>
-
-        <!-- Chapter V — Mountains & Miles (Swipeable Polaroid Carousel) -->
-        <section>
-          <div class="mb-6 text-center">
-            <span class="text-[11px] font-semibold tracking-[0.28em] text-gold uppercase">Chapter V</span>
-            <h2 class="mt-1 font-serif text-2xl font-bold text-maroon sm:text-3xl">Mountains &amp; Miles</h2>
-            <p class="mt-1.5 text-xs text-ink/60">Swipe through our favorite mountain escapes &amp; tap any card to flip</p>
-          </div>
-
-          <div
-            id="tripsCarousel"
-            class="no-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto pb-4 pt-1 -mx-4 px-4 sm:mx-0 sm:px-0"
-          ></div>
-
-          <!-- 3 Interactive Pagination Dots -->
-          <div id="carouselDots" class="mt-3 flex items-center justify-center gap-2.5" role="tablist" aria-label="Trip slides">
-            <button type="button" data-slide="0" aria-label="Slide 1: Dalhousie" class="carousel-dot h-2.5 w-7 rounded-full bg-maroon transition-all duration-300"></button>
-            <button type="button" data-slide="1" aria-label="Slide 2: Khajjiar" class="carousel-dot h-2.5 w-2.5 rounded-full bg-gold-bright/45 transition-all duration-300"></button>
-            <button type="button" data-slide="2" aria-label="Slide 3: Chakrata" class="carousel-dot h-2.5 w-2.5 rounded-full bg-gold-bright/45 transition-all duration-300"></button>
-          </div>
-        </section>
-
-        <!-- Chapter VI — The Proposal & Our Forever -->
-        <section>
-          <div class="mb-6 text-center">
-            <span class="text-[11px] font-semibold tracking-[0.28em] text-gold uppercase">Chapter VI</span>
-            <h2 class="mt-1 font-serif text-2xl font-bold text-maroon sm:text-3xl">The Proposal &amp; Our Forever</h2>
-          </div>
-          <div id="chapter6Grid" class="space-y-6"></div>
-        </section>
-      </div>
+      <section class="mt-14">
+        <div class="mb-6 text-center">
+          <span class="text-[10px] font-semibold tracking-[0.28em] text-gold uppercase">Chapter I</span>
+          <h2 class="mt-1 font-serif text-2xl font-bold text-maroon sm:text-3xl">Kedarnath</h2>
+        </div>
+        <div id="chapter1Grid" class="grid grid-cols-1 gap-6 sm:grid-cols-2"></div>
+      </section>
 
       <!-- ================================================================= -->
-      <!-- HEARTFELT LIFE NOTE (Warm Cream Stationery)                       -->
+      <!-- CHAPTER II — WHEN IT ALL STARTED TO BECOME A REALITY              -->
       <!-- ================================================================= -->
-      <section class="mt-20">
-        <div class="relative rounded-3xl border border-gold-bright/45 bg-ivory-card p-2 shadow-[0_14px_40px_rgba(107,29,47,0.08)]">
-          <div class="relative rounded-2xl border border-gold-bright/30 px-6 py-9 sm:px-9 sm:py-11">
-            <!-- Delicate Gold Corners -->
-            <span class="pointer-events-none absolute top-3 left-3 h-5 w-5 border-t-2 border-l-2 border-gold-bright/70 rounded-tl-md"></span>
-            <span class="pointer-events-none absolute top-3 right-3 h-5 w-5 border-t-2 border-r-2 border-gold-bright/70 rounded-tr-md"></span>
-            <span class="pointer-events-none absolute bottom-3 left-3 h-5 w-5 border-b-2 border-l-2 border-gold-bright/70 rounded-bl-md"></span>
-            <span class="pointer-events-none absolute bottom-3 right-3 h-5 w-5 border-b-2 border-r-2 border-gold-bright/70 rounded-br-md"></span>
+      <section class="mt-16">
+        <div class="mb-6 text-center">
+          <span class="text-[10px] font-semibold tracking-[0.28em] text-gold uppercase">Chapter II</span>
+          <h2 class="mt-1 font-serif text-2xl font-bold text-maroon sm:text-3xl">
+            When It All Started to Become a Reality — First Few Dates
+          </h2>
+        </div>
+        <div id="chapter2Grid" class="grid grid-cols-1 gap-6 sm:grid-cols-2"></div>
+      </section>
 
-            <div class="mb-6 text-center">
-              <span class="text-[11px] font-semibold tracking-[0.28em] text-gold uppercase">A Note For Life</span>
-              <h2 class="mt-1 font-serif text-2xl font-bold text-maroon sm:text-3xl">To My Forever Travel Partner</h2>
+      <!-- ================================================================= -->
+      <!-- CHAPTER III — THE REAL US                                         -->
+      <!-- ================================================================= -->
+      <section class="mt-16">
+        <div class="mb-6 text-center">
+          <span class="text-[10px] font-semibold tracking-[0.28em] text-gold uppercase">Chapter III</span>
+          <h2 class="mt-1 font-serif text-2xl font-bold text-maroon sm:text-3xl">The Real Us</h2>
+        </div>
+        <div id="chapter3Grid" class="grid grid-cols-1 gap-6 sm:grid-cols-2"></div>
+      </section>
+
+      <!-- ================================================================= -->
+      <!-- CHAPTER IV — LITTLE CELEBRATIONS                                  -->
+      <!-- ================================================================= -->
+      <section class="mt-16">
+        <div class="mb-6 text-center">
+          <span class="text-[10px] font-semibold tracking-[0.28em] text-gold uppercase">Chapter IV</span>
+          <h2 class="mt-1 font-serif text-2xl font-bold text-maroon sm:text-3xl">Little Celebrations</h2>
+        </div>
+        <div id="chapter4Grid" class="grid grid-cols-1 gap-6 sm:grid-cols-2"></div>
+      </section>
+
+      <!-- ================================================================= -->
+      <!-- CHAPTER V — OUR TRIPS (SWIPEABLE CAROUSEL)                        -->
+      <!-- ================================================================= -->
+      <section class="mt-16">
+        <div class="mb-6 text-center">
+          <span class="text-[10px] font-semibold tracking-[0.28em] text-gold uppercase">Chapter V</span>
+          <h2 class="mt-1 font-serif text-2xl font-bold text-maroon sm:text-3xl">Our Trips</h2>
+          <p class="mt-1 text-xs text-gold">Swipe sideways to explore →</p>
+        </div>
+
+        <div
+          id="tripsCarousel"
+          class="no-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto px-2 pb-4"
+        ></div>
+
+        <!-- 3 Synced Pagination Dots -->
+        <div class="mt-2 flex items-center justify-center gap-2" aria-label="Trip slides navigation">
+          <button type="button" class="carousel-dot h-2.5 w-7 rounded-full bg-maroon transition-all duration-300" aria-label="Slide 1"></button>
+          <button type="button" class="carousel-dot h-2.5 w-2.5 rounded-full bg-gold-bright/45 transition-all duration-300" aria-label="Slide 2"></button>
+          <button type="button" class="carousel-dot h-2.5 w-2.5 rounded-full bg-gold-bright/45 transition-all duration-300" aria-label="Slide 3"></button>
+        </div>
+      </section>
+
+      <!-- ================================================================= -->
+      <!-- CHAPTER VI — THE PROPOSAL & ROKA                                  -->
+      <!-- ================================================================= -->
+      <section class="mt-16">
+        <div class="mb-6 text-center">
+          <span class="text-[10px] font-semibold tracking-[0.28em] text-gold uppercase">Chapter VI</span>
+          <h2 class="mt-1 font-serif text-2xl font-bold text-maroon sm:text-3xl">The Proposal &amp; Roka</h2>
+        </div>
+        <div id="chapter6Grid" class="grid grid-cols-1 gap-6 sm:grid-cols-2"></div>
+      </section>
+
+      <!-- ================================================================= -->
+      <!-- FINAL HEARTFELT LETTER (STATIONERY CARD)                          -->
+      <!-- ================================================================= -->
+      <section class="mt-16">
+        <div class="rounded-3xl border border-gold-bright/50 bg-ivory-card p-3 shadow-[0_14px_40px_rgba(107,29,47,0.08)] sm:p-4">
+          <div class="relative rounded-2xl border border-gold-bright/35 px-6 py-8 sm:px-9 sm:py-10">
+            <span class="pointer-events-none absolute top-2.5 left-2.5 h-3.5 w-3.5 border-t-2 border-l-2 border-gold-bright/65 rounded-tl-sm"></span>
+            <span class="pointer-events-none absolute top-2.5 right-2.5 h-3.5 w-3.5 border-t-2 border-r-2 border-gold-bright/65 rounded-tr-sm"></span>
+            <span class="pointer-events-none absolute bottom-2.5 left-2.5 h-3.5 w-3.5 border-b-2 border-l-2 border-gold-bright/65 rounded-bl-sm"></span>
+            <span class="pointer-events-none absolute bottom-2.5 right-2.5 h-3.5 w-3.5 border-b-2 border-r-2 border-gold-bright/65 rounded-br-sm"></span>
+
+            <div class="text-center">
+              <span class="text-[10px] font-semibold tracking-[0.28em] text-gold uppercase">A Note For You</span>
+              <h2 class="mt-1 font-serif text-2xl font-bold text-maroon">To My Favorite Person</h2>
+              <div class="mx-auto my-4 h-px w-16 bg-gold-bright/55"></div>
             </div>
 
-            <div class="space-y-4 text-sm leading-7 text-ink/85 sm:text-[15px]">
+            <div class="space-y-4 font-serif text-[15px] leading-relaxed text-ink/90 sm:text-base">
               <p>
-                From one lucky seat next to you on a bus to Kedarnath, to standing beside you today as our families bless our new beginning—every single mile with you has felt like coming home.
+                Five months ago, on June 23rd, we met for the very first time waiting at the Akshardham metro station. Who knew we’d end up sitting next to each other on that bus to Kedarnath, starting an endless conversation that still hasn't stopped? From that first hello to standing beside you on November 22nd as our families bless our Roka—every single mile with you has felt like coming home.
               </p>
               <p>
-                Thank you for matching my weirdness, for turning ordinary road trips and quiet evenings into memories I will hold onto forever, and for giving me a cardboard ring I’ll treasure more than anything else in the world.
+                Thank you for matching my weirdness, and for turning ordinary road trips and quiet evenings into memories I will hold onto forever.
               </p>
               <p>
-                As we officially begin our <span class="font-serif italic text-maroon font-medium">#2awaare</span> chapter, I promise to always be your biggest cheerleader, your favorite chai companion, and the one who never lets you forget how deeply you are loved.
+                As we officially begin our #2awaare chapter, I am so endlessly proud of who you are. I promise to always stand right beside you while you take the limelight, because I know you are meant to rule—and I will never let you forget how deeply you are loved.
               </p>
             </div>
 
-            <div class="mt-8 text-right">
-              <p class="font-serif text-xl italic text-maroon">— Forever yours, K</p>
-            </div>
+            <p class="mt-6 text-right font-serif text-base italic font-semibold text-maroon">
+              Forever yours, K &amp; H ♥
+            </p>
           </div>
         </div>
       </section>
 
       <!-- ================================================================= -->
-      <!-- CUSTOM AUDIO MESSAGE PLAYER (audio.m4a)                           -->
+      <!-- CUSTOM 16-BAR VOICE NOTE PLAYER (audio.m4a)                       -->
       <!-- ================================================================= -->
       <section class="mt-12">
-        <div id="audioCard" class="rounded-3xl border border-gold-bright/40 bg-ivory-card p-6 shadow-[0_12px_36px_rgba(107,29,47,0.08)] sm:p-7">
-          <div class="mb-4 text-center">
-            <span class="text-[10px] font-semibold tracking-[0.28em] text-gold uppercase">Voice Note</span>
-            <h3 class="mt-1 font-serif text-xl font-bold text-maroon">Turn Your Volume Up &amp; Listen</h3>
-          </div>
+        <div
+          id="audioCard"
+          class="rounded-3xl border border-gold-bright/45 bg-ivory-card p-3 shadow-[0_14px_40px_rgba(107,29,47,0.08)] sm:p-4"
+        >
+          <div class="rounded-2xl border border-gold-bright/30 px-5 py-6 sm:px-6">
+            <div class="text-center">
+              <span class="text-[10px] font-semibold tracking-[0.28em] text-gold uppercase">Voice Note</span>
+              <h3 class="mt-1 font-serif text-xl font-bold text-maroon">Listen to My Message</h3>
+              <p class="mt-1 text-xs text-ink/65">Tap play whenever you miss me</p>
+            </div>
 
-          <div class="flex items-center gap-4">
-            <!-- Play / Pause Button -->
-            <button
-              id="audioPlayBtn"
-              type="button"
-              aria-label="Play voice message"
-              class="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-full bg-maroon text-ivory shadow-[0_8px_20px_rgba(107,29,47,0.32)] transition hover:bg-maroon-dark active:scale-95"
-            >
-              <!-- Play Icon -->
-              <svg id="playIcon" class="ml-0.5 h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M8 5.14v14l11-7-11-7z" />
-              </svg>
-              <!-- Pause Icon -->
-              <svg id="pauseIcon" class="hidden h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
-                <rect x="6" y="5" width="4" height="14" rx="1" />
-                <rect x="14" y="5" width="4" height="14" rx="1" />
-              </svg>
-            </button>
+            <audio id="voiceNoteAudio" src="audio.m4a" preload="metadata"></audio>
 
-            <!-- 16-Bar Animated Waveform + Seek Bar -->
-            <div class="flex-1 min-w-0">
-              <div id="waveformBars" class="mb-2.5 flex h-9 items-center justify-between gap-1 px-0.5" aria-hidden="true">
-                <!-- 16 bars injected via JS -->
-              </div>
+            <!-- Play Button + 16-Bar Animated Waveform -->
+            <div class="mt-6 flex items-center gap-4">
+              <button
+                id="audioPlayBtn"
+                type="button"
+                aria-label="Play voice message"
+                class="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-full bg-maroon text-ivory shadow-[0_8px_20px_rgba(107,29,47,0.3)] transition hover:bg-maroon-dark active:scale-95"
+              >
+                <svg id="playIcon" class="ml-0.5 h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M8 5.14v14l11-7-11-7z" />
+                </svg>
+                <svg id="pauseIcon" class="hidden h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
+                  <rect x="6" y="5" width="4" height="14" rx="1" />
+                  <rect x="14" y="5" width="4" height="14" rx="1" />
+                </svg>
+              </button>
 
-              <input
-                id="audioSeek"
-                type="range"
-                min="0"
-                max="100"
-                value="0"
-                aria-label="Audio progress"
-                class="audio-seek w-full cursor-pointer"
-              />
-              <div class="mt-1.5 flex justify-between text-[11px] font-medium text-gold">
-                <span id="audioCurrentTime">0:00</span>
-                <span id="audioDuration">0:00</span>
+              <div class="flex-1">
+                <div id="waveformBars" class="flex h-10 items-center gap-1" aria-hidden="true"></div>
+                <input
+                  id="audioSeek"
+                  type="range"
+                  min="0"
+                  max="100"
+                  value="0"
+                  step="0.1"
+                  aria-label="Seek voice message"
+                  class="audio-seek mt-2.5 w-full"
+                />
+                <div class="mt-1 flex justify-between text-[11px] font-medium text-gold">
+                  <span id="audioCurrentTime">0:00</span>
+                  <span id="audioDuration">0:00</span>
+                </div>
               </div>
             </div>
+
+            <p id="audioStatusMsg" class="mt-3 hidden text-center text-xs text-maroon/80"></p>
           </div>
-
-          <!-- Inline Status Message (for preview when audio.m4a isn't uploaded yet) -->
-          <p id="audioStatusMsg" class="mt-3 hidden rounded-xl bg-ivory px-3 py-2 text-center text-xs text-maroon/80"></p>
-
-          <audio id="voiceNoteAudio" src="audio.m4a" preload="metadata"></audio>
         </div>
       </section>
 
       <!-- ================================================================= -->
-      <!-- VIDEO NOTE CARD (video.mp4 with poster="16.jpeg")                 -->
+      <!-- BUILT-IN CINEMATIC PHOTO FILM (Uses 1.jpeg – 17.jpeg)             -->
       <!-- ================================================================= -->
       <section class="mt-12">
         <div class="rounded-3xl border border-gold-bright/45 bg-ivory-card p-3 shadow-[0_14px_40px_rgba(107,29,47,0.08)] sm:p-4">
           <div class="rounded-2xl border border-gold-bright/30 p-3 sm:p-4">
             <div class="mb-4 text-center">
               <span class="text-[10px] font-semibold tracking-[0.28em] text-gold uppercase">A Little Film For You</span>
-              <h3 class="mt-1 font-serif text-xl font-bold text-maroon">Watch When You’re Ready</h3>
+              <h3 class="mt-1 font-serif text-xl font-bold text-maroon">Our Story in Motion</h3>
             </div>
 
-            <div class="overflow-hidden rounded-xl bg-maroon-dark/95 shadow-inner">
-              <video
-                id="videoNote"
-                controls
-                playsinline
-                preload="metadata"
-                poster="16.jpeg"
-                class="aspect-video w-full object-cover"
+            <!-- Cinematic Stage -->
+            <div
+              id="reelStage"
+              class="relative aspect-[4/5] w-full overflow-hidden rounded-xl bg-maroon-dark shadow-inner select-none sm:aspect-video"
+            >
+              <!-- Slide Layers Injected via JS -->
+              <div id="reelSlidesContainer" class="relative h-full w-full"></div>
+
+              <!-- Initial Poster + Play Button Overlay -->
+              <div
+                id="reelStartOverlay"
+                class="absolute inset-0 z-20 flex flex-col items-center justify-center bg-maroon-dark/65 p-6 text-center backdrop-blur-[2px] transition-opacity duration-500"
               >
-                <source src="video.mp4" type="video/mp4" />
-                Your browser does not support embedded video playback.
-              </video>
+                <img
+                  src="16.jpeg"
+                  alt="Play Our Story Film"
+                  class="pointer-events-none absolute inset-0 -z-10 h-full w-full object-cover opacity-45"
+                  onerror="this.style.display='none';"
+                />
+                <button
+                  id="reelStartBtn"
+                  type="button"
+                  aria-label="Play our photo film"
+                  class="group flex h-20 w-20 items-center justify-center rounded-full border-2 border-gold-bright/80 bg-maroon/95 text-ivory shadow-[0_12px_32px_rgba(0,0,0,0.45)] transition duration-300 hover:scale-105 active:scale-95"
+                >
+                  <svg class="ml-1 h-8 w-8 text-ivory transition group-hover:text-gold-bright" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M8 5.14v14l11-7-11-7z" />
+                  </svg>
+                </button>
+                <p class="mt-4 font-serif text-xl font-semibold text-ivory drop-shadow">
+                  Press Play to Watch Us
+                </p>
+                <p class="mt-1 text-[11px] font-medium tracking-[0.22em] text-gold-bright uppercase">
+                  June 23 • November 22
+                </p>
+              </div>
+            </div>
+
+            <!-- Progress Bar & Controls -->
+            <div class="mt-3.5 space-y-2.5">
+              <div class="h-1.5 w-full overflow-hidden rounded-full bg-gold-soft">
+                <div
+                  id="reelProgressBar"
+                  class="h-full w-0 rounded-full bg-gradient-to-r from-maroon to-gold-bright transition-all duration-300"
+                ></div>
+              </div>
+
+              <div class="flex items-center justify-between gap-2 pt-0.5">
+                <div class="flex items-center gap-1.5">
+                  <button
+                    id="reelPrevBtn"
+                    type="button"
+                    aria-label="Previous memory"
+                    class="flex h-9 w-9 items-center justify-center rounded-full border border-gold-bright/45 bg-ivory text-maroon transition hover:bg-gold-soft active:scale-95"
+                  >
+                    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                    </svg>
+                  </button>
+
+                  <button
+                    id="reelPlayPauseBtn"
+                    type="button"
+                    aria-label="Play or pause film"
+                    class="flex h-9 items-center gap-1.5 rounded-full bg-maroon px-4 text-xs font-semibold tracking-wide text-ivory shadow-sm transition hover:bg-maroon-dark active:scale-95"
+                  >
+                    <svg id="reelPlayIcon" class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M8 5.14v14l11-7-11-7z" />
+                    </svg>
+                    <svg id="reelPauseIcon" class="hidden h-3.5 w-3.5" viewBox="0 0 24 24" fill="currentColor">
+                      <rect x="6" y="5" width="4" height="14" rx="1" />
+                      <rect x="14" y="5" width="4" height="14" rx="1" />
+                    </svg>
+                    <span id="reelPlayLabel">Play</span>
+                  </button>
+
+                  <button
+                    id="reelNextBtn"
+                    type="button"
+                    aria-label="Next memory"
+                    class="flex h-9 w-9 items-center justify-center rounded-full border border-gold-bright/45 bg-ivory text-maroon transition hover:bg-gold-soft active:scale-95"
+                  >
+                    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                    </svg>
+                  </button>
+                </div>
+
+                <div class="flex items-center gap-2.5">
+                  <span id="reelCounter" class="text-[11px] font-semibold tracking-wider text-gold">
+                    0 / 19
+                  </span>
+                  <button
+                    id="reelReplayBtn"
+                    type="button"
+                    aria-label="Replay film from start"
+                    class="flex h-9 w-9 items-center justify-center rounded-full border border-gold-bright/45 bg-ivory text-gold transition hover:text-maroon active:scale-95"
+                  >
+                    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h5M20 12a8 8 0 11-2.34-5.66L20 9" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -582,13 +689,12 @@
       <!-- ================================================================= -->
       <footer class="mt-16 flex flex-col items-center border-t border-gold-bright/30 pt-8 text-center">
         <p class="font-serif text-base font-medium text-maroon">
-          #2awaare <span class="mx-1.5 text-gold-bright">•</span> Forever Begins Now
+          #2awaare <span class="mx-1.5 text-gold-bright">•</span> Forever Begins Here
         </p>
         <p class="mt-1 text-[11px] tracking-wider text-gold">
           Made with all my heart for K &amp; H
         </p>
 
-        <!-- Subtle Lock Page Button -->
         <button
           id="lockPageBtn"
           type="button"
@@ -603,6 +709,32 @@
       </footer>
     </div>
   </main>
+
+  <!-- ===================================================================== -->
+  <!-- BACKGROUND SONG AUDIO ELEMENT + FLOATING MUSIC TOGGLE                 -->
+  <!-- ===================================================================== -->
+  <audio id="bgMusic" src="song.mp3" loop preload="auto"></audio>
+
+  <button
+    id="bgMusicToggle"
+    type="button"
+    aria-label="Toggle background music"
+    class="fixed right-4 bottom-5 z-30 hidden items-center gap-2 rounded-full border border-gold-bright/70 bg-maroon/95 px-3.5 py-2.5 text-ivory shadow-[0_10px_28px_rgba(107,29,47,0.35)] backdrop-blur-sm transition hover:bg-maroon-dark active:scale-95"
+  >
+    <span id="bgEqBars" class="hidden h-3.5 items-end gap-0.5" aria-hidden="true">
+      <span class="eq-bar h-full w-0.5 rounded-full bg-gold-bright" style="animation-delay: 0s;"></span>
+      <span class="eq-bar h-full w-0.5 rounded-full bg-ivory" style="animation-delay: 0.2s;"></span>
+      <span class="eq-bar h-full w-0.5 rounded-full bg-gold-bright" style="animation-delay: 0.4s;"></span>
+      <span class="eq-bar h-full w-0.5 rounded-full bg-ivory" style="animation-delay: 0.15s;"></span>
+    </span>
+    <svg id="bgMutedIcon" class="h-4 w-4 text-gold-bright" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M9 18V5l12-2v13" />
+      <circle cx="6" cy="18" r="3" />
+      <circle cx="18" cy="16" r="3" />
+      <line x1="3" y1="3" x2="21" y2="21" />
+    </svg>
+    <span id="bgMusicLabel" class="text-[11px] font-semibold tracking-wider uppercase">Music</span>
+  </button>
 
   <!-- ===================================================================== -->
   <!-- 4. FULL-SCREEN LIGHTBOX MODAL                                         -->
@@ -648,7 +780,6 @@
       /* ------------------------------------------------------------------- */
       const STORAGE_KEY = '2awaare_vault_unlocked_v1';
 
-      // Pure-JS deterministic credential signature (works offline via file:// and online via https://)
       function encodeCredential(raw) {
         const normalized = String(raw || '').trim().toLowerCase();
         const codes = [];
@@ -658,7 +789,7 @@
         return codes.join('-');
       }
 
-      // Expected obfuscated signatures for Login ID & Password
+      // Expected obfuscated signatures for Login ID (Chole) & Password (Bhatoore)
       const EXPECTED_ID_SIG = '106-112-120-118-112';
       const EXPECTED_PW_SIG = '105-112-106-126-122-123-127-115';
 
@@ -690,7 +821,7 @@
         try {
           window.localStorage.setItem(key, val);
         } catch (err) {
-          // Ignore storage errors in private/restricted browsing modes
+          // Ignore storage errors in private browsing modes
         }
       }
 
@@ -702,7 +833,6 @@
         }
       }
 
-      // Show Wax Seal overlay smoothly
       function showWaxSeal(skipFade) {
         if (skipFade) {
           loginScreen.classList.add('hidden');
@@ -715,18 +845,15 @@
           loginScreen.classList.add('hidden');
           waxSealScreen.classList.remove('hidden', 'opacity-0', 'pointer-events-none');
           waxSealScreen.classList.add('flex');
-          // Trigger reflow for fade-in
           void waxSealScreen.offsetWidth;
           waxSealScreen.classList.add('opacity-100');
         }, 550);
       }
 
-      // Check if device is already remembered on load
       if (safeGetStorage(STORAGE_KEY) === 'true') {
         showWaxSeal(true);
       }
 
-      // Password show/hide toggle
       togglePasswordBtn.addEventListener('click', () => {
         const isPassword = loginPasswordInput.type === 'password';
         loginPasswordInput.type = isPassword ? 'text' : 'password';
@@ -735,7 +862,6 @@
         togglePasswordBtn.setAttribute('aria-label', isPassword ? 'Hide password' : 'Show password');
       });
 
-      // Handle Login Form submission
       loginForm.addEventListener('submit', (e) => {
         e.preventDefault();
         const enteredIdSig = encodeCredential(loginIdInput.value);
@@ -752,15 +878,19 @@
         } else {
           loginError.classList.remove('hidden');
           loginCard.classList.remove('animate-shake');
-          void loginCard.offsetWidth; // Force reflow to replay animation
+          void loginCard.offsetWidth;
           loginCard.classList.add('animate-shake');
         }
       });
 
-      // Wax Seal tap -> reveal main keepsake page
       waxSealBtn.addEventListener('click', () => {
         waxSealScreen.classList.add('opacity-0', 'pointer-events-none');
         mainContent.classList.remove('hidden');
+
+        if (typeof window.__start2awaareBgMusic === 'function') {
+          window.__start2awaareBgMusic();
+        }
+
         setTimeout(() => {
           waxSealScreen.classList.add('hidden');
           waxSealScreen.classList.remove('flex');
@@ -770,15 +900,17 @@
         }, 550);
       });
 
-      // Lock Page button in footer -> clear storage & return to Vault Login
       lockPageBtn.addEventListener('click', () => {
         safeRemoveStorage(STORAGE_KEY);
 
-        // Pause media if currently playing
         const audioEl = document.getElementById('voiceNoteAudio');
-        const videoEl = document.getElementById('videoNote');
         if (audioEl && !audioEl.paused) audioEl.pause();
-        if (videoEl && !videoEl.paused) videoEl.pause();
+        if (typeof window.__stop2awaareReel === 'function') {
+          window.__stop2awaareReel();
+        }
+        if (typeof window.__stop2awaareBgMusic === 'function') {
+          window.__stop2awaareBgMusic();
+        }
 
         mainContent.classList.add('opacity-0');
         setTimeout(() => {
@@ -817,8 +949,8 @@
         chapter2: [
           {
             src: '3.jpeg',
-            title: 'Twinning in Black & Railway Station Jitters',
-            note: 'You picked me up on your scooty while my heart was racing a mile a minute, and we showed up accidentally matching in black. Between Gurudwara blessings, roaming Gwalior, and holding hands at the movies, my nervousness turned into pure magic.',
+            title: 'Twinning in Black',
+            note: 'You picked me up on your scooty while my heart was racing a mile a minute. Between Gurudwara, making our first wishlist to attend Koteshwar Arti together, roaming Gwalior, and holding hands at the movies, eating dosa, my nervousness turned into pure magic—and that feeling of not wanting to leave Gwalior.',
           },
           {
             src: '4.jpeg',
@@ -844,8 +976,8 @@
           },
           {
             src: '15.jpeg',
-            title: 'Deed before the act',
-            note: 'In this photo, i was practicing proposing you and i am glad i did.',
+            title: 'For You, From Me',
+            note: 'If I could, I would gather every bloom in the world just to see you smile.<br /><br />This one is only the beginning.<br /><br />No matter the season, I will always bring all the flowers to you.',
           },
         ],
         chapter4: [
@@ -861,7 +993,7 @@
           },
           {
             src: '9.jpeg',
-            title: 'Escaping the Chaos at Punchgaon',
+            title: 'Favorite spot, favorite company — Panchgaon',
             note: 'I was very excited to take you to my favourite place in gurgaon, Punchgoan, and i am glad that we enjoyed.',
           },
           {
@@ -895,8 +1027,8 @@
           },
           {
             src: '17.jpeg',
-            title: '18-Karat Gold vs. Custom Cardboard',
-            note: 'I brought the gold ring to Rishikesh, and you matched my energy with a handcrafted cardboard masterpiece. Honestly, The i loved it.',
+            title: 'Two Rings, One Promise',
+            note: 'I brought a ring to Rishikesh to ask for your hand, and you surprised me right back with one crafted by yours. It was never about what they were made of—only the love behind them. I loved yours with all my heart.',
           },
         ],
       };
@@ -905,8 +1037,13 @@
       /* 3. BUILD 3D TAP-TO-FLIP POLAROID CARDS                              */
       /* ------------------------------------------------------------------- */
       function buildPlaceholderUrl(title) {
-        const label = encodeURIComponent(title.slice(0, 28));
-        return `https://placehold.co/600x750/FAF6F0/6B1D2F?text=${label}`;
+        const safeText = String(title || '#2awaare')
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .slice(0, 34);
+        const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 750"><rect width="600" height="750" fill="#FAF6F0"/><rect x="24" y="24" width="552" height="702" rx="18" fill="#FFFDF9" stroke="#C9A25E" stroke-width="2" stroke-opacity="0.55"/><circle cx="300" cy="310" r="44" fill="none" stroke="#C9A25E" stroke-width="2" stroke-dasharray="4 6"/><path d="M300 284c-8-14-28-14-34 0-5 12 4 25 34 46 30-21 39-34 34-46-6-14-26-14-34 0z" fill="#6B1D2F" fill-opacity="0.85"/><text x="300" y="405" text-anchor="middle" font-family="Georgia, serif" font-size="26" font-weight="600" fill="#6B1D2F">#2awaare</text><text x="300" y="448" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#A67C52">${safeText}</text></svg>`;
+        return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
       }
 
       function createPolaroidCard(item, isCarouselSlide) {
@@ -932,7 +1069,6 @@
                   class="aspect-[4/5] w-full object-cover transition duration-500"
                   onerror="this.onerror=null; this.src='${placeholderUrl}';"
                 />
-                <!-- Top-Right Expand / Zoom Lightbox Button -->
                 <button
                   type="button"
                   class="expand-btn absolute top-2.5 right-2.5 flex h-9 w-9 items-center justify-center rounded-full bg-ink/55 text-ivory backdrop-blur-sm transition hover:bg-maroon active:scale-95"
@@ -950,7 +1086,7 @@
               </div>
             </div>
 
-            <!-- BACK SIDE (Cream Stationery with Gold Inner Border) -->
+            <!-- BACK SIDE -->
             <div class="flip-card-back flex flex-col justify-between rounded-2xl border border-gold-bright/50 bg-ivory-card p-3 shadow-[0_10px_28px_rgba(107,29,47,0.1)]">
               <div class="flex h-full flex-col justify-between rounded-xl border border-gold-bright/40 bg-ivory/65 px-5 py-6 text-center">
                 <div>
@@ -971,7 +1107,6 @@
           </div>
         `;
 
-        // Toggle 3D flip on click or Enter/Space
         wrapper.addEventListener('click', () => {
           wrapper.classList.toggle('is-flipped');
         });
@@ -982,7 +1117,6 @@
           }
         });
 
-        // Expand button opens full-screen lightbox without flipping card
         const expandBtn = wrapper.querySelector('.expand-btn');
         const imgEl = wrapper.querySelector('img');
         expandBtn.addEventListener('click', (e) => {
@@ -993,13 +1127,18 @@
         return wrapper;
       }
 
-      // Render each chapter into its grid/carousel
-      memories.chapter1.forEach((m) => document.getElementById('chapter1Grid').appendChild(createPolaroidCard(m, false)));
-      memories.chapter2.forEach((m) => document.getElementById('chapter2Grid').appendChild(createPolaroidCard(m, false)));
-      memories.chapter3.forEach((m) => document.getElementById('chapter3Grid').appendChild(createPolaroidCard(m, false)));
-      memories.chapter4.forEach((m) => document.getElementById('chapter4Grid').appendChild(createPolaroidCard(m, false)));
-      memories.chapter5.forEach((m) => document.getElementById('tripsCarousel').appendChild(createPolaroidCard(m, true)));
-      memories.chapter6.forEach((m) => document.getElementById('chapter6Grid').appendChild(createPolaroidCard(m, false)));
+      const mountChapter = (id, list, isCarousel) => {
+        const container = document.getElementById(id);
+        if (!container) return;
+        list.forEach((m) => container.appendChild(createPolaroidCard(m, isCarousel)));
+      };
+
+      mountChapter('chapter1Grid', memories.chapter1, false);
+      mountChapter('chapter2Grid', memories.chapter2, false);
+      mountChapter('chapter3Grid', memories.chapter3, false);
+      mountChapter('chapter4Grid', memories.chapter4, false);
+      mountChapter('tripsCarousel', memories.chapter5, true);
+      mountChapter('chapter6Grid', memories.chapter6, false);
 
       /* ------------------------------------------------------------------- */
       /* 4. CHAPTER V CAROUSEL PAGINATION DOTS SYNC                          */
@@ -1019,32 +1158,34 @@
         });
       }
 
-      tripsCarousel.addEventListener('scroll', () => {
-        const slides = Array.from(tripsCarousel.children);
-        if (!slides.length) return;
-        const carouselCenter = tripsCarousel.scrollLeft + tripsCarousel.clientWidth / 2;
-        let closestIdx = 0;
-        let minDistance = Infinity;
-        slides.forEach((slide, idx) => {
-          const slideCenter = slide.offsetLeft + slide.offsetWidth / 2;
-          const dist = Math.abs(carouselCenter - slideCenter);
-          if (dist < minDistance) {
-            minDistance = dist;
-            closestIdx = idx;
-          }
-        });
-        updateActiveDot(closestIdx);
-      }, { passive: true });
+      if (tripsCarousel) {
+        tripsCarousel.addEventListener('scroll', () => {
+          const slides = Array.from(tripsCarousel.children);
+          if (!slides.length) return;
+          const carouselCenter = tripsCarousel.scrollLeft + tripsCarousel.clientWidth / 2;
+          let closestIdx = 0;
+          let minDistance = Infinity;
+          slides.forEach((slide, idx) => {
+            const slideCenter = slide.offsetLeft + slide.offsetWidth / 2;
+            const dist = Math.abs(carouselCenter - slideCenter);
+            if (dist < minDistance) {
+              minDistance = dist;
+              closestIdx = idx;
+            }
+          });
+          updateActiveDot(closestIdx);
+        }, { passive: true });
 
-      carouselDots.forEach((dot, idx) => {
-        dot.addEventListener('click', () => {
-          const slide = tripsCarousel.children[idx];
-          if (slide) {
-            slide.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
-            updateActiveDot(idx);
-          }
+        carouselDots.forEach((dot, idx) => {
+          dot.addEventListener('click', () => {
+            const slide = tripsCarousel.children[idx];
+            if (slide) {
+              slide.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+              updateActiveDot(idx);
+            }
+          });
         });
-      });
+      }
 
       /* ------------------------------------------------------------------- */
       /* 5. FULL-SCREEN LIGHTBOX                                             */
@@ -1093,7 +1234,6 @@
       const audioStatusMsg = document.getElementById('audioStatusMsg');
       const waveformBars = document.getElementById('waveformBars');
 
-      // Generate 16 golden/maroon waveform bars with varied heights & animation delays
       const barHeights = [40, 68, 52, 86, 95, 62, 78, 100, 84, 58, 92, 74, 48, 80, 60, 42];
       barHeights.forEach((pct, idx) => {
         const bar = document.createElement('span');
@@ -1165,6 +1305,336 @@
           audioEl.currentTime = (audioSeek.value / 100) * audioEl.duration;
         }
       });
+
+      /* ------------------------------------------------------------------- */
+      /* 7. BACKGROUND SONG (song.mp3) & SMART MEDIA COORDINATION            */
+      /* ------------------------------------------------------------------- */
+      const bgMusic = document.getElementById('bgMusic');
+      const bgMusicToggle = document.getElementById('bgMusicToggle');
+      const bgEqBars = document.getElementById('bgEqBars');
+      const bgMutedIcon = document.getElementById('bgMutedIcon');
+      const bgMusicLabel = document.getElementById('bgMusicLabel');
+
+      const BG_TARGET_VOLUME = 0.45;
+      let bgFadeInterval = null;
+      let bgResumeTimeout = null;
+      let bgManuallyMuted = false;
+      let bgAutoPaused = false;
+      let bgMusicUnavailable = false;
+
+      function clearBgFade() {
+        if (bgFadeInterval) {
+          clearInterval(bgFadeInterval);
+          bgFadeInterval = null;
+        }
+      }
+
+      function updateBgToggleUI(isPlaying) {
+        bgMusicToggle.classList.toggle('music-playing', isPlaying);
+        if (isPlaying) {
+          bgEqBars.classList.remove('hidden');
+          bgEqBars.classList.add('flex');
+          bgMutedIcon.classList.add('hidden');
+          bgMusicLabel.textContent = 'Playing';
+          bgMusicToggle.setAttribute('aria-label', 'Pause background music');
+        } else {
+          bgEqBars.classList.add('hidden');
+          bgEqBars.classList.remove('flex');
+          bgMutedIcon.classList.remove('hidden');
+          bgMusicLabel.textContent = bgManuallyMuted ? 'Muted' : 'Music';
+          bgMusicToggle.setAttribute('aria-label', 'Play background music');
+        }
+      }
+
+      function fadeInBgMusic() {
+        if (bgMusicUnavailable) return;
+        clearBgFade();
+        try {
+          bgMusic.volume = 0;
+          const playPromise = bgMusic.play();
+          if (playPromise !== undefined) {
+            playPromise
+              .then(() => {
+                updateBgToggleUI(true);
+                let currentVol = 0;
+                bgFadeInterval = setInterval(() => {
+                  currentVol = Math.min(BG_TARGET_VOLUME, currentVol + 0.03);
+                  bgMusic.volume = currentVol;
+                  if (currentVol >= BG_TARGET_VOLUME) {
+                    clearBgFade();
+                  }
+                }, 75);
+              })
+              .catch(() => {
+                updateBgToggleUI(false);
+              });
+          } else {
+            bgMusic.volume = BG_TARGET_VOLUME;
+            updateBgToggleUI(true);
+          }
+        } catch (err) {
+          updateBgToggleUI(false);
+        }
+      }
+
+      function pauseBgMusic(asAutoPause) {
+        clearBgFade();
+        if (bgResumeTimeout) {
+          clearTimeout(bgResumeTimeout);
+          bgResumeTimeout = null;
+        }
+        if (asAutoPause && !bgMusic.paused) {
+          bgAutoPaused = true;
+        }
+        try {
+          if (!bgMusic.paused) {
+            bgMusic.pause();
+          }
+        } catch (err) {
+          // Ignore pause errors
+        }
+        updateBgToggleUI(false);
+      }
+
+      function scheduleBgMusicResume() {
+        if (bgResumeTimeout) clearTimeout(bgResumeTimeout);
+        bgResumeTimeout = setTimeout(() => {
+          const voicePaused = audioEl.paused || audioEl.ended;
+          if (!bgManuallyMuted && bgAutoPaused && voicePaused) {
+            bgAutoPaused = false;
+            fadeInBgMusic();
+          }
+        }, 180);
+      }
+
+      bgMusic.addEventListener('error', () => {
+        bgMusicUnavailable = true;
+        clearBgFade();
+        updateBgToggleUI(false);
+      });
+
+      window.__start2awaareBgMusic = function () {
+        bgManuallyMuted = false;
+        bgAutoPaused = false;
+        bgMusicToggle.classList.remove('hidden');
+        bgMusicToggle.classList.add('flex');
+        fadeInBgMusic();
+      };
+
+      window.__stop2awaareBgMusic = function () {
+        bgAutoPaused = false;
+        pauseBgMusic(false);
+        bgMusicToggle.classList.add('hidden');
+        bgMusicToggle.classList.remove('flex');
+      };
+
+      bgMusicToggle.addEventListener('click', () => {
+        if (!bgMusic.paused) {
+          bgManuallyMuted = true;
+          bgAutoPaused = false;
+          pauseBgMusic(false);
+        } else {
+          bgManuallyMuted = false;
+          bgAutoPaused = false;
+          if (!audioEl.paused) audioEl.pause();
+          fadeInBgMusic();
+        }
+      });
+
+      audioEl.addEventListener('play', () => {
+        pauseBgMusic(true);
+      });
+      audioEl.addEventListener('pause', scheduleBgMusicResume);
+      audioEl.addEventListener('ended', scheduleBgMusicResume);
+
+      /* ------------------------------------------------------------------- */
+      /* 8. BUILT-IN CINEMATIC PHOTO FILM (1.jpeg – 17.jpeg)                 */
+      /* ------------------------------------------------------------------- */
+      const reelStage = document.getElementById('reelStage');
+      const reelSlidesContainer = document.getElementById('reelSlidesContainer');
+      const reelStartOverlay = document.getElementById('reelStartOverlay');
+      const reelStartBtn = document.getElementById('reelStartBtn');
+      const reelPlayPauseBtn = document.getElementById('reelPlayPauseBtn');
+      const reelPlayIcon = document.getElementById('reelPlayIcon');
+      const reelPauseIcon = document.getElementById('reelPauseIcon');
+      const reelPlayLabel = document.getElementById('reelPlayLabel');
+      const reelPrevBtn = document.getElementById('reelPrevBtn');
+      const reelNextBtn = document.getElementById('reelNextBtn');
+      const reelReplayBtn = document.getElementById('reelReplayBtn');
+      const reelProgressBar = document.getElementById('reelProgressBar');
+      const reelCounter = document.getElementById('reelCounter');
+
+      const reelSlidesData = [
+        {
+          type: 'title',
+          eyebrow: 'JUNE 23 • AKSHARDHAM TO KEDARNATH',
+          heading: 'Where It All Began',
+          subtext: 'Five months, countless miles, and one unforgettable story.',
+        },
+        ...memories.chapter1.map((m) => ({ type: 'photo', chapter: 'Chapter I • Kedarnath', src: m.src, title: m.title })),
+        ...memories.chapter2.map((m) => ({ type: 'photo', chapter: 'Chapter II • First Few Dates', src: m.src, title: m.title })),
+        ...memories.chapter3.map((m) => ({ type: 'photo', chapter: 'Chapter III • The Real Us', src: m.src, title: m.title })),
+        ...memories.chapter4.map((m) => ({ type: 'photo', chapter: 'Chapter IV • Little Celebrations', src: m.src, title: m.title })),
+        ...memories.chapter5.map((m) => ({ type: 'photo', chapter: 'Chapter V • Our Trips', src: m.src, title: m.title })),
+        ...memories.chapter6.map((m) => ({ type: 'photo', chapter: 'Chapter VI • Proposal & Roka', src: m.src, title: m.title })),
+        {
+          type: 'title',
+          eyebrow: 'NOVEMBER 22 • FOREVER BEGINS',
+          heading: 'Officially #2awaare',
+          subtext: 'Here’s to every mile ahead, K & H.',
+        },
+      ];
+
+      const reelSlideEls = reelSlidesData.map((slide) => {
+        const el = document.createElement('div');
+        el.className = 'absolute inset-0 opacity-0 pointer-events-none transition-opacity duration-700';
+
+        if (slide.type === 'title') {
+          el.innerHTML = `
+            <div class="flex h-full w-full flex-col items-center justify-center bg-gradient-to-br from-maroon-dark via-maroon to-maroon-dark px-6 text-center">
+              <div class="mb-3 flex items-center gap-2 text-gold-bright">
+                <span class="h-px w-8 bg-gold-bright/60"></span>
+                <span class="h-1.5 w-1.5 rotate-45 bg-gold-bright"></span>
+                <span class="h-px w-8 bg-gold-bright/60"></span>
+              </div>
+              <p class="text-[10px] font-semibold tracking-[0.28em] text-gold-bright uppercase">${slide.eyebrow}</p>
+              <h4 class="mt-2 font-serif text-3xl font-bold text-ivory sm:text-4xl">${slide.heading}</h4>
+              <p class="mt-3 max-w-xs text-xs leading-relaxed text-ivory/80 sm:text-sm">${slide.subtext}</p>
+            </div>
+          `;
+        } else {
+          const fallback = buildPlaceholderUrl(slide.title);
+          el.innerHTML = `
+            <div class="relative h-full w-full overflow-hidden bg-maroon-dark">
+              <img
+                src="${slide.src}"
+                alt=""
+                aria-hidden="true"
+                class="absolute inset-0 h-full w-full scale-110 object-cover opacity-35 blur-xl"
+                onerror="this.style.display='none';"
+              />
+              <img
+                src="${slide.src}"
+                alt="${slide.title.replace(/"/g, '&quot;')}"
+                loading="lazy"
+                class="reel-photo-zoom relative z-10 h-full w-full object-contain"
+                onerror="this.onerror=null; this.src='${fallback}';"
+              />
+              <div class="absolute inset-x-0 bottom-0 z-10 bg-gradient-to-t from-ink/90 via-ink/50 to-transparent px-4 pb-4 pt-12 text-center">
+                <p class="text-[10px] font-semibold tracking-[0.22em] text-gold-bright uppercase">${slide.chapter}</p>
+                <p class="mt-0.5 font-serif text-base font-semibold text-ivory sm:text-lg">${slide.title}</p>
+              </div>
+            </div>
+          `;
+        }
+
+        reelSlidesContainer.appendChild(el);
+        return el;
+      });
+
+      const SLIDE_DURATION_MS = 3800;
+      let reelIndex = -1;
+      let reelPlaying = false;
+      let reelTimer = null;
+
+      function updateReelControlsUI() {
+        reelPlayIcon.classList.toggle('hidden', reelPlaying);
+        reelPauseIcon.classList.toggle('hidden', !reelPlaying);
+        reelPlayLabel.textContent = reelPlaying ? 'Pause' : 'Play';
+        reelStage.classList.toggle('reel-paused', !reelPlaying);
+        const displayNum = reelIndex < 0 ? 0 : reelIndex + 1;
+        reelCounter.textContent = `${displayNum} / ${reelSlideEls.length}`;
+        const pct = reelIndex < 0 ? 0 : ((reelIndex + 1) / reelSlideEls.length) * 100;
+        reelProgressBar.style.width = `${pct}%`;
+      }
+
+      function showReelSlide(index) {
+        if (index < 0 || index >= reelSlideEls.length) return;
+        reelStartOverlay.classList.add('opacity-0', 'pointer-events-none');
+        reelSlideEls.forEach((el, idx) => {
+          const isActive = idx === index;
+          el.classList.toggle('opacity-100', isActive);
+          el.classList.toggle('opacity-0', !isActive);
+          el.classList.toggle('reel-slide-active', isActive);
+        });
+        reelIndex = index;
+        updateReelControlsUI();
+      }
+
+      function scheduleNextReelSlide() {
+        if (reelTimer) clearTimeout(reelTimer);
+        if (!reelPlaying) return;
+        reelTimer = setTimeout(() => {
+          if (reelIndex < reelSlideEls.length - 1) {
+            showReelSlide(reelIndex + 1);
+            scheduleNextReelSlide();
+          } else {
+            reelPlaying = false;
+            updateReelControlsUI();
+          }
+        }, SLIDE_DURATION_MS);
+      }
+
+      function playReel(fromStart) {
+        if (!audioEl.paused) audioEl.pause();
+        if (!bgManuallyMuted && bgMusic.paused && !bgMusicUnavailable) {
+          fadeInBgMusic();
+        }
+
+        reelPlaying = true;
+        if (fromStart || reelIndex < 0 || reelIndex >= reelSlideEls.length - 1) {
+          showReelSlide(0);
+        } else {
+          showReelSlide(reelIndex);
+        }
+        scheduleNextReelSlide();
+      }
+
+      function pauseReel() {
+        reelPlaying = false;
+        if (reelTimer) {
+          clearTimeout(reelTimer);
+          reelTimer = null;
+        }
+        updateReelControlsUI();
+      }
+
+      window.__stop2awaareReel = function () {
+        pauseReel();
+        reelIndex = -1;
+        reelSlideEls.forEach((el) => {
+          el.classList.remove('opacity-100', 'reel-slide-active');
+          el.classList.add('opacity-0');
+        });
+        reelStartOverlay.classList.remove('opacity-0', 'pointer-events-none');
+        updateReelControlsUI();
+      };
+
+      reelStartBtn.addEventListener('click', () => playReel(true));
+
+      reelPlayPauseBtn.addEventListener('click', () => {
+        if (reelPlaying) {
+          pauseReel();
+        } else {
+          playReel(false);
+        }
+      });
+
+      reelPrevBtn.addEventListener('click', () => {
+        const prevIdx = reelIndex <= 0 ? 0 : reelIndex - 1;
+        showReelSlide(prevIdx);
+        if (reelPlaying) scheduleNextReelSlide();
+      });
+
+      reelNextBtn.addEventListener('click', () => {
+        const nextIdx = reelIndex < 0 ? 0 : Math.min(reelSlideEls.length - 1, reelIndex + 1);
+        showReelSlide(nextIdx);
+        if (reelPlaying) scheduleNextReelSlide();
+      });
+
+      reelReplayBtn.addEventListener('click', () => playReel(true));
+
+      updateReelControlsUI();
     })();
   </script>
 </body>
