@@ -100,20 +100,6 @@
       animation: sealPulse 2.6s infinite ease-in-out;
     }
 
-    /* Audio 16-bar animated waveform */
-    @keyframes waveDance {
-      0%, 100% { transform: scaleY(0.28); }
-      50% { transform: scaleY(1); }
-    }
-    .wave-bar {
-      transform-origin: center;
-      transform: scaleY(0.32);
-      transition: transform 0.25s ease;
-    }
-    .is-playing .wave-bar {
-      animation: waveDance 0.9s infinite ease-in-out;
-    }
-
     /* Floating music toggle equalizer bars */
     @keyframes eqBounce {
       0%, 100% { transform: scaleY(0.3); }
@@ -135,36 +121,6 @@
     .no-scrollbar {
       -ms-overflow-style: none;
       scrollbar-width: none;
-    }
-
-    /* Custom range input styling for audio seek bar */
-    input[type="range"].audio-seek {
-      -webkit-appearance: none;
-      appearance: none;
-      background: #EFE5D8;
-      height: 6px;
-      border-radius: 999px;
-      outline: none;
-    }
-    input[type="range"].audio-seek::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      appearance: none;
-      width: 16px;
-      height: 16px;
-      border-radius: 50%;
-      background: #6B1D2F;
-      border: 2px solid #FFFDF9;
-      box-shadow: 0 2px 6px rgba(107, 29, 47, 0.35);
-      cursor: pointer;
-    }
-    input[type="range"].audio-seek::-moz-range-thumb {
-      width: 16px;
-      height: 16px;
-      border-radius: 50%;
-      background: #6B1D2F;
-      border: 2px solid #FFFDF9;
-      box-shadow: 0 2px 6px rgba(107, 29, 47, 0.35);
-      cursor: pointer;
     }
 
     /* Cinematic Photo Reel Ken Burns zoom animation */
@@ -502,64 +458,6 @@
             <p class="mt-6 text-right font-serif text-base italic font-semibold text-maroon">
               Forever yours, K &amp; H ♥
             </p>
-          </div>
-        </div>
-      </section>
-
-      <!-- ================================================================= -->
-      <!-- CUSTOM 16-BAR VOICE NOTE PLAYER (audio.m4a)                       -->
-      <!-- ================================================================= -->
-      <section class="mt-12">
-        <div
-          id="audioCard"
-          class="rounded-3xl border border-gold-bright/45 bg-ivory-card p-3 shadow-[0_14px_40px_rgba(107,29,47,0.08)] sm:p-4"
-        >
-          <div class="rounded-2xl border border-gold-bright/30 px-5 py-6 sm:px-6">
-            <div class="text-center">
-              <span class="text-[10px] font-semibold tracking-[0.28em] text-gold uppercase">Voice Note</span>
-              <h3 class="mt-1 font-serif text-xl font-bold text-maroon">Listen to My Message</h3>
-              <p class="mt-1 text-xs text-ink/65">Tap play whenever you miss me</p>
-            </div>
-
-            <audio id="voiceNoteAudio" src="audio.m4a" preload="metadata"></audio>
-
-            <!-- Play Button + 16-Bar Animated Waveform -->
-            <div class="mt-6 flex items-center gap-4">
-              <button
-                id="audioPlayBtn"
-                type="button"
-                aria-label="Play voice message"
-                class="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-full bg-maroon text-ivory shadow-[0_8px_20px_rgba(107,29,47,0.3)] transition hover:bg-maroon-dark active:scale-95"
-              >
-                <svg id="playIcon" class="ml-0.5 h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M8 5.14v14l11-7-11-7z" />
-                </svg>
-                <svg id="pauseIcon" class="hidden h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
-                  <rect x="6" y="5" width="4" height="14" rx="1" />
-                  <rect x="14" y="5" width="4" height="14" rx="1" />
-                </svg>
-              </button>
-
-              <div class="flex-1">
-                <div id="waveformBars" class="flex h-10 items-center gap-1" aria-hidden="true"></div>
-                <input
-                  id="audioSeek"
-                  type="range"
-                  min="0"
-                  max="100"
-                  value="0"
-                  step="0.1"
-                  aria-label="Seek voice message"
-                  class="audio-seek mt-2.5 w-full"
-                />
-                <div class="mt-1 flex justify-between text-[11px] font-medium text-gold">
-                  <span id="audioCurrentTime">0:00</span>
-                  <span id="audioDuration">0:00</span>
-                </div>
-              </div>
-            </div>
-
-            <p id="audioStatusMsg" class="mt-3 hidden text-center text-xs text-maroon/80"></p>
           </div>
         </div>
       </section>
@@ -903,8 +801,6 @@
       lockPageBtn.addEventListener('click', () => {
         safeRemoveStorage(STORAGE_KEY);
 
-        const audioEl = document.getElementById('voiceNoteAudio');
-        if (audioEl && !audioEl.paused) audioEl.pause();
         if (typeof window.__stop2awaareReel === 'function') {
           window.__stop2awaareReel();
         }
@@ -1221,93 +1117,7 @@
       });
 
       /* ------------------------------------------------------------------- */
-      /* 6. CUSTOM 16-BAR AUDIO PLAYER (audio.m4a)                           */
-      /* ------------------------------------------------------------------- */
-      const audioCard = document.getElementById('audioCard');
-      const audioEl = document.getElementById('voiceNoteAudio');
-      const audioPlayBtn = document.getElementById('audioPlayBtn');
-      const playIcon = document.getElementById('playIcon');
-      const pauseIcon = document.getElementById('pauseIcon');
-      const audioSeek = document.getElementById('audioSeek');
-      const audioCurrentTime = document.getElementById('audioCurrentTime');
-      const audioDuration = document.getElementById('audioDuration');
-      const audioStatusMsg = document.getElementById('audioStatusMsg');
-      const waveformBars = document.getElementById('waveformBars');
-
-      const barHeights = [40, 68, 52, 86, 95, 62, 78, 100, 84, 58, 92, 74, 48, 80, 60, 42];
-      barHeights.forEach((pct, idx) => {
-        const bar = document.createElement('span');
-        const isMaroon = idx % 3 === 0;
-        bar.className = `wave-bar flex-1 rounded-full ${isMaroon ? 'bg-maroon' : 'bg-gold-bright'}`;
-        bar.style.height = `${pct}%`;
-        bar.style.animationDelay = `${(idx * 0.08).toFixed(2)}s`;
-        waveformBars.appendChild(bar);
-      });
-
-      function formatTime(sec) {
-        if (!Number.isFinite(sec) || sec < 0) return '0:00';
-        const m = Math.floor(sec / 60);
-        const s = Math.floor(sec % 60).toString().padStart(2, '0');
-        return `${m}:${s}`;
-      }
-
-      function setPlayingUI(playing) {
-        playIcon.classList.toggle('hidden', playing);
-        pauseIcon.classList.toggle('hidden', !playing);
-        audioCard.classList.toggle('is-playing', playing);
-        audioPlayBtn.setAttribute('aria-label', playing ? 'Pause voice message' : 'Play voice message');
-      }
-
-      audioEl.addEventListener('loadedmetadata', () => {
-        audioDuration.textContent = formatTime(audioEl.duration);
-      });
-      audioEl.addEventListener('durationchange', () => {
-        audioDuration.textContent = formatTime(audioEl.duration);
-      });
-
-      audioPlayBtn.addEventListener('click', () => {
-        audioStatusMsg.classList.add('hidden');
-        if (audioEl.paused) {
-          const playPromise = audioEl.play();
-          if (playPromise !== undefined) {
-            playPromise
-              .then(() => setPlayingUI(true))
-              .catch(() => {
-                setPlayingUI(false);
-                audioStatusMsg.textContent = 'Upload your audio.m4a file alongside index.html to hear your voice note.';
-                audioStatusMsg.classList.remove('hidden');
-              });
-          } else {
-            setPlayingUI(true);
-          }
-        } else {
-          audioEl.pause();
-          setPlayingUI(false);
-        }
-      });
-
-      audioEl.addEventListener('pause', () => setPlayingUI(false));
-      audioEl.addEventListener('ended', () => {
-        setPlayingUI(false);
-        audioSeek.value = 0;
-        audioCurrentTime.textContent = '0:00';
-      });
-
-      audioEl.addEventListener('timeupdate', () => {
-        if (audioEl.duration) {
-          audioSeek.value = (audioEl.currentTime / audioEl.duration) * 100;
-          audioCurrentTime.textContent = formatTime(audioEl.currentTime);
-        }
-      });
-
-      audioSeek.addEventListener('input', () => {
-        if (audioEl.duration) {
-          audioEl.currentTime = (audioSeek.value / 100) * audioEl.duration;
-        }
-      });
-
-      /* ------------------------------------------------------------------- */
-      /* 7. BACKGROUND SONG (song.mp3) & SMART MEDIA COORDINATION            */
+      /* 6. BACKGROUND SONG (song.mp3) & FLOATING MUSIC TOGGLE               */
       /* ------------------------------------------------------------------- */
       const bgMusic = document.getElementById('bgMusic');
       const bgMusicToggle = document.getElementById('bgMusicToggle');
@@ -1317,9 +1127,7 @@
 
       const BG_TARGET_VOLUME = 0.45;
       let bgFadeInterval = null;
-      let bgResumeTimeout = null;
       let bgManuallyMuted = false;
-      let bgAutoPaused = false;
       let bgMusicUnavailable = false;
 
       function clearBgFade() {
@@ -1377,15 +1185,8 @@
         }
       }
 
-      function pauseBgMusic(asAutoPause) {
+      function pauseBgMusic() {
         clearBgFade();
-        if (bgResumeTimeout) {
-          clearTimeout(bgResumeTimeout);
-          bgResumeTimeout = null;
-        }
-        if (asAutoPause && !bgMusic.paused) {
-          bgAutoPaused = true;
-        }
         try {
           if (!bgMusic.paused) {
             bgMusic.pause();
@@ -1396,17 +1197,6 @@
         updateBgToggleUI(false);
       }
 
-      function scheduleBgMusicResume() {
-        if (bgResumeTimeout) clearTimeout(bgResumeTimeout);
-        bgResumeTimeout = setTimeout(() => {
-          const voicePaused = audioEl.paused || audioEl.ended;
-          if (!bgManuallyMuted && bgAutoPaused && voicePaused) {
-            bgAutoPaused = false;
-            fadeInBgMusic();
-          }
-        }, 180);
-      }
-
       bgMusic.addEventListener('error', () => {
         bgMusicUnavailable = true;
         clearBgFade();
@@ -1415,15 +1205,13 @@
 
       window.__start2awaareBgMusic = function () {
         bgManuallyMuted = false;
-        bgAutoPaused = false;
         bgMusicToggle.classList.remove('hidden');
         bgMusicToggle.classList.add('flex');
         fadeInBgMusic();
       };
 
       window.__stop2awaareBgMusic = function () {
-        bgAutoPaused = false;
-        pauseBgMusic(false);
+        pauseBgMusic();
         bgMusicToggle.classList.add('hidden');
         bgMusicToggle.classList.remove('flex');
       };
@@ -1431,24 +1219,15 @@
       bgMusicToggle.addEventListener('click', () => {
         if (!bgMusic.paused) {
           bgManuallyMuted = true;
-          bgAutoPaused = false;
-          pauseBgMusic(false);
+          pauseBgMusic();
         } else {
           bgManuallyMuted = false;
-          bgAutoPaused = false;
-          if (!audioEl.paused) audioEl.pause();
           fadeInBgMusic();
         }
       });
 
-      audioEl.addEventListener('play', () => {
-        pauseBgMusic(true);
-      });
-      audioEl.addEventListener('pause', scheduleBgMusicResume);
-      audioEl.addEventListener('ended', scheduleBgMusicResume);
-
       /* ------------------------------------------------------------------- */
-      /* 8. BUILT-IN CINEMATIC PHOTO FILM (1.jpeg – 17.jpeg)                 */
+      /* 7. BUILT-IN CINEMATIC PHOTO FILM (1.jpeg – 17.jpeg)                 */
       /* ------------------------------------------------------------------- */
       const reelStage = document.getElementById('reelStage');
       const reelSlidesContainer = document.getElementById('reelSlidesContainer');
@@ -1576,7 +1355,6 @@
       }
 
       function playReel(fromStart) {
-        if (!audioEl.paused) audioEl.pause();
         if (!bgManuallyMuted && bgMusic.paused && !bgMusicUnavailable) {
           fadeInBgMusic();
         }
