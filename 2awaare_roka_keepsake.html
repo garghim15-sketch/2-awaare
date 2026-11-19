@@ -5,58 +5,116 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>#2awaare — Our Journey Begins</title>
 
-  <!-- Google Fonts: Playfair Display, Plus Jakarta Sans, Caveat -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
-
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts: Playfair Display & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400;1,500;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
   <script>
     tailwind.config = {
       theme: {
         extend: {
           colors: {
-            ivory: '#FAF6F0',
-            parchment: '#FFFDF9',
-            maroon: '#6B1D2F',
-            maroonDark: '#521423',
-            gold: '#B88A44',
-            goldSoft: '#DEC08A',
-            sand: '#EFE5D8',
-            espresso: '#2D2424',
-            muted: '#7A6A6A',
-            twilight: '#161B2E',
-            twilightDeep: '#0E1220',
+            maroon: {
+              DEFAULT: '#6B1D2F',
+              dark: '#4E1220',
+              light: '#8A2B41',
+            },
+            gold: {
+              DEFAULT: '#A67C52',
+              bright: '#C9A25E',
+              soft: '#EFE5D8',
+            },
+            ivory: {
+              DEFAULT: '#FAF6F0',
+              card: '#FFFDF9',
+            },
+            ink: '#2D2424',
           },
           fontFamily: {
-            display: ['"Playfair Display"', 'serif'],
-            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-            hand: ['"Caveat"', 'cursive'],
+            serif: ['"Playfair Display"', 'Georgia', 'serif'],
+            sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
           },
-          boxShadow: {
-            card: '0 12px 32px -8px rgba(107, 29, 47, 0.08)',
-            hero: '0 18px 42px -12px rgba(107, 29, 47, 0.16)',
-            polaroid: '0 10px 26px -6px rgba(45, 36, 36, 0.12)',
-            goldGlow: '0 0 0 1px rgba(184, 138, 68, 0.45), 0 16px 38px -8px rgba(184, 138, 68, 0.28)',
-            seal: '0 12px 30px rgba(107, 29, 47, 0.38), inset 0 0 0 2px rgba(222, 192, 138, 0.55)',
-            twilight: '0 18px 40px -10px rgba(14, 18, 32, 0.42)',
-          }
-        }
-      }
+        },
+      },
     };
   </script>
 
   <style>
-    /* Base Parchment & Typography */
+    /* Base smooth typography & subtle paper texture */
     body {
       background-color: #FAF6F0;
       color: #2D2424;
-      -webkit-font-smoothing: antialiased;
+      font-family: 'Plus Jakarta Sans', sans-serif;
       overflow-x: hidden;
+      -webkit-tap-highlight-color: transparent;
     }
 
-    /* Hide scrollbar for swipeable Polaroid carousel */
+    /* 3D Tap-to-Flip Polaroid Card Mechanics */
+    .flip-card {
+      perspective: 1200px;
+      cursor: pointer;
+    }
+    .flip-card-inner {
+      position: relative;
+      width: 100%;
+      transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+      transform-style: preserve-3d;
+    }
+    .flip-card.is-flipped .flip-card-inner {
+      transform: rotateY(180deg);
+    }
+    .flip-card-front,
+    .flip-card-back {
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+    .flip-card-back {
+      position: absolute;
+      inset: 0;
+      transform: rotateY(180deg);
+    }
+
+    /* Gentle shake animation for wrong login credentials */
+    @keyframes shakeCard {
+      0%, 100% { transform: translateX(0); }
+      18% { transform: translateX(-8px); }
+      36% { transform: translateX(8px); }
+      54% { transform: translateX(-6px); }
+      72% { transform: translateX(6px); }
+      88% { transform: translateX(-3px); }
+    }
+    .animate-shake {
+      animation: shakeCard 0.45s ease-in-out;
+    }
+
+    /* Wax Seal subtle pulse */
+    @keyframes sealPulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(107, 29, 47, 0.35), 0 14px 32px rgba(107, 29, 47, 0.35); }
+      50% { box-shadow: 0 0 0 14px rgba(107, 29, 47, 0), 0 18px 36px rgba(107, 29, 47, 0.42); }
+    }
+    .wax-seal-btn {
+      animation: sealPulse 2.6s infinite ease-in-out;
+    }
+
+    /* Audio 16-bar animated waveform */
+    @keyframes waveDance {
+      0%, 100% { transform: scaleY(0.28); }
+      50% { transform: scaleY(1); }
+    }
+    .wave-bar {
+      transform-origin: center;
+      transform: scaleY(0.32);
+      transition: transform 0.25s ease;
+    }
+    .is-playing .wave-bar {
+      animation: waveDance 0.9s infinite ease-in-out;
+    }
+
+    /* Hide scrollbar for horizontal trip carousel */
     .no-scrollbar::-webkit-scrollbar {
       display: none;
     }
@@ -65,1059 +123,1048 @@
       scrollbar-width: none;
     }
 
-    /* Scroll reveal animations */
-    .reveal {
-      opacity: 0;
-      transform: translateY(26px);
-      transition: opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1), transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
-    }
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* Opening Wax Seal Overlay */
-    #welcomeCover {
-      transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1), transform 0.9s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.9s;
-    }
-    #welcomeCover.opened {
-      opacity: 0;
-      transform: scale(1.04);
-      visibility: hidden;
-      pointer-events: none;
-    }
-
-    /* Tactile Wax Seal Pulse */
-    @keyframes sealPulse {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(184, 138, 68, 0.45), 0 12px 30px rgba(107, 29, 47, 0.38); }
-      50% { box-shadow: 0 0 0 15px rgba(184, 138, 68, 0), 0 12px 30px rgba(107, 29, 47, 0.38); }
-    }
-    .seal-pulse {
-      animation: sealPulse 2.6s infinite ease-in-out;
-    }
-
-    /* Gentle Compass Sway */
-    @keyframes compassSway {
-      0%, 100% { transform: rotate(0deg); }
-      50% { transform: rotate(10deg); }
-    }
-    .compass-float {
-      animation: compassSway 7s infinite ease-in-out;
-    }
-
-    /* Twinkling Stars for Moonlit Kedarnath Card */
-    @keyframes twinkle {
-      0%, 100% { opacity: 0.35; transform: scale(0.9); }
-      50% { opacity: 1; transform: scale(1.15); }
-    }
-    .star-twinkle {
-      animation: twinkle 3.2s infinite ease-in-out;
-    }
-    .star-twinkle-delay {
-      animation: twinkle 4.1s infinite ease-in-out 1.1s;
-    }
-
-    /* Equalizer Waveform Bars for Audio Player */
-    .eq-bar {
-      width: 3px;
-      height: 8px;
-      border-radius: 9999px;
-      background: linear-gradient(to top, #6B1D2F, #B88A44);
-      transition: height 0.2s ease;
-    }
-    .playing .eq-bar {
-      animation: eqDance 0.85s infinite ease-in-out alternate;
-    }
-    .playing .eq-bar:nth-child(1) { animation-delay: 0.05s; }
-    .playing .eq-bar:nth-child(2) { animation-delay: 0.24s; }
-    .playing .eq-bar:nth-child(3) { animation-delay: 0.12s; }
-    .playing .eq-bar:nth-child(4) { animation-delay: 0.36s; }
-    .playing .eq-bar:nth-child(5) { animation-delay: 0.18s; }
-    .playing .eq-bar:nth-child(6) { animation-delay: 0.44s; }
-    .playing .eq-bar:nth-child(7) { animation-delay: 0.08s; }
-    .playing .eq-bar:nth-child(8) { animation-delay: 0.28s; }
-    .playing .eq-bar:nth-child(9) { animation-delay: 0.15s; }
-    .playing .eq-bar:nth-child(10) { animation-delay: 0.39s; }
-    .playing .eq-bar:nth-child(11) { animation-delay: 0.21s; }
-    .playing .eq-bar:nth-child(12) { animation-delay: 0.10s; }
-
-    @keyframes eqDance {
-      0% { height: 6px; opacity: 0.5; }
-      50% { height: 26px; opacity: 1; }
-      100% { height: 11px; opacity: 0.75; }
-    }
-
-    /* Custom Range Slider for Seek Bar */
-    input[type="range"]#seekBar {
+    /* Custom range input styling for audio seek bar */
+    input[type="range"].audio-seek {
       -webkit-appearance: none;
       appearance: none;
-      width: 100%;
-      height: 5px;
-      border-radius: 9999px;
       background: #EFE5D8;
+      height: 6px;
+      border-radius: 999px;
       outline: none;
     }
-    input[type="range"]#seekBar::-webkit-slider-thumb {
+    input[type="range"].audio-seek::-webkit-slider-thumb {
       -webkit-appearance: none;
       appearance: none;
       width: 16px;
       height: 16px;
       border-radius: 50%;
       background: #6B1D2F;
-      border: 2px solid #FAF6F0;
+      border: 2px solid #FFFDF9;
       box-shadow: 0 2px 6px rgba(107, 29, 47, 0.35);
       cursor: pointer;
     }
-    input[type="range"]#seekBar::-moz-range-thumb {
+    input[type="range"].audio-seek::-moz-range-thumb {
       width: 16px;
       height: 16px;
       border-radius: 50%;
       background: #6B1D2F;
-      border: 2px solid #FAF6F0;
+      border: 2px solid #FFFDF9;
       box-shadow: 0 2px 6px rgba(107, 29, 47, 0.35);
       cursor: pointer;
-    }
-
-    /* Tap-to-Zoom Photo Cursor */
-    .zoomable {
-      cursor: zoom-in;
-    }
-
-    /* Lightbox Transition */
-    #lightboxModal {
-      transition: opacity 0.28s ease, visibility 0.28s ease;
-    }
-    #lightboxModal.hidden-modal {
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
     }
   </style>
 </head>
+<body class="min-h-screen bg-ivory text-ink antialiased selection:bg-maroon/15 selection:text-maroon">
 
-<body class="font-sans bg-ivory text-espresso selection:bg-maroon/15 selection:text-maroon overflow-hidden" id="pageBody">
+  <!-- ===================================================================== -->
+  <!-- 1. PRIVATE VAULT LOGIN SCREEN (#loginScreen)                          -->
+  <!-- ===================================================================== -->
+  <section
+    id="loginScreen"
+    class="fixed inset-0 z-50 flex items-center justify-center bg-ivory px-4 py-8 transition-opacity duration-700 overflow-y-auto"
+    aria-label="Private Keepsake Vault Login"
+  >
+    <!-- Ornate Outer Frame -->
+    <div class="relative w-full max-w-md rounded-3xl border border-gold-bright/50 bg-ivory-card p-2 shadow-[0_20px_60px_rgba(107,29,47,0.12)]">
+      <!-- Delicate Gold Inner Border -->
+      <div id="loginCard" class="relative rounded-2xl border border-gold-bright/40 px-6 py-8 sm:px-8 sm:py-10">
+        <!-- Decorative Corner Accents -->
+        <span class="pointer-events-none absolute top-2.5 left-2.5 h-4 w-4 border-t-2 border-l-2 border-gold-bright/70 rounded-tl-md"></span>
+        <span class="pointer-events-none absolute top-2.5 right-2.5 h-4 w-4 border-t-2 border-r-2 border-gold-bright/70 rounded-tr-md"></span>
+        <span class="pointer-events-none absolute bottom-2.5 left-2.5 h-4 w-4 border-b-2 border-l-2 border-gold-bright/70 rounded-bl-md"></span>
+        <span class="pointer-events-none absolute bottom-2.5 right-2.5 h-4 w-4 border-b-2 border-r-2 border-gold-bright/70 rounded-br-md"></span>
 
-  <!-- =========================================================
-       EARLY IMAGE FALLBACK HELPER
-       Shows a clean cream-and-gold framed placeholder with exact
-       expected filename + caption until local files are added.
-  ========================================================== -->
-  <script>
-    function handleImgError(img, filename, label, size) {
-      if (img.dataset.fallbackApplied === 'true') return;
-      img.dataset.fallbackApplied = 'true';
-      const dims = size || '800x960';
-      const text = encodeURIComponent(filename + '\n' + label);
-      img.src = 'https://placehold.co/' + dims + '/EFE5D8/6B1D2F?text=' + text;
-    }
+        <!-- Compass & Sparkle Motif -->
+        <div class="flex flex-col items-center text-center mb-6">
+          <div class="mb-3 flex items-center justify-center gap-2 text-gold-bright">
+            <svg class="h-3.5 w-3.5 opacity-80" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8L12 2z" />
+            </svg>
+            <svg class="h-8 w-8 text-maroon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+              <circle cx="24" cy="24" r="19" stroke="#C9A25E" stroke-dasharray="2 3" />
+              <circle cx="24" cy="24" r="14" stroke="#A67C52" />
+              <path d="M24 6L27.2 20.8L42 24L27.2 27.2L24 42L20.8 27.2L6 24L20.8 20.8L24 6Z" fill="#6B1D2F" stroke="#6B1D2F" stroke-linejoin="round" />
+              <circle cx="24" cy="24" r="2.2" fill="#FAF6F0" stroke="none" />
+            </svg>
+            <svg class="h-3.5 w-3.5 opacity-80" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8L12 2z" />
+            </svg>
+          </div>
 
-    function handleLogoError(img, fallbackId) {
-      img.classList.add('hidden');
-      const fallback = document.getElementById(fallbackId);
-      if (fallback) fallback.classList.remove('hidden');
-    }
-  </script>
+          <h1 class="font-serif text-4xl font-bold tracking-tight text-maroon">#2awaare</h1>
+          <p class="mt-1.5 text-[11px] font-semibold tracking-[0.28em] text-gold uppercase">
+            PRIVATE KEEPSAKE VAULT
+          </p>
 
-  <!-- =========================================================
-       1. INTERACTIVE OPENING WAX SEAL OVERLAY
-  ========================================================== -->
-  <div id="welcomeCover" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-ivory px-6 text-center">
-    <!-- Subtle Parchment Double Border -->
-    <div class="pointer-events-none absolute inset-4 rounded-3xl border border-gold/35 sm:inset-6"></div>
-    <div class="pointer-events-none absolute inset-6 rounded-2xl border border-gold/15 sm:inset-8"></div>
-
-    <div class="relative z-10 flex max-w-xs flex-col items-center">
-      <!-- Optional logo.png on Welcome Screen (falls back cleanly to SVG compass + #2awaare emblem) -->
-      <img
-        src="logo.png"
-        alt="#2awaare Crest"
-        class="mb-4 h-32 w-32 rounded-full border border-gold/35 bg-parchment object-contain p-1.5 shadow-sm"
-        onerror="handleLogoError(this, 'coverFallbackCrest')"
-      />
-
-      <div id="coverFallbackCrest" class="hidden flex flex-col items-center">
-        <div class="compass-float mb-5 flex h-16 w-16 items-center justify-center rounded-full border border-gold/45 bg-parchment shadow-sm">
-          <svg class="h-9 w-9 text-gold" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <circle cx="24" cy="24" r="19" stroke-opacity="0.45" />
-            <circle cx="24" cy="24" r="15" stroke-dasharray="2 3" stroke-opacity="0.55" />
-            <polygon points="24,7 27.5,20.5 41,24 27.5,27.5 24,41 20.5,27.5 7,24 20.5,20.5" fill="rgba(184,138,68,0.14)" />
-            <circle cx="24" cy="24" r="2.2" fill="#6B1D2F" stroke="none" />
-          </svg>
+          <!-- Hint Pill -->
+          <div class="mt-4 inline-flex items-center gap-1.5 rounded-full border border-gold-bright/45 bg-ivory px-3.5 py-1.5 text-xs font-medium text-maroon shadow-sm">
+            <svg class="h-3.5 w-3.5 text-gold-bright" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-1m0-13a6 6 0 00-3.5 10.87c.5.38.82.96.82 1.63v.5h5.36v-.5c0-.67.32-1.25.82-1.63A6 6 0 0012 4z" />
+            </svg>
+            <span>Hint: Our Nick Names</span>
+          </div>
         </div>
-        <h1 class="font-display text-4xl font-bold tracking-tight text-maroon sm:text-5xl">#2awaare</h1>
+
+        <!-- Login Form -->
+        <form id="loginForm" class="space-y-4" novalidate>
+          <div>
+            <label for="loginId" class="mb-1.5 block text-xs font-semibold tracking-wider text-ink/75 uppercase">
+              Login ID
+            </label>
+            <input
+              id="loginId"
+              type="text"
+              autocomplete="username"
+              placeholder="Enter Login ID"
+              class="w-full rounded-xl border border-gold-soft bg-ivory/70 px-4 py-3 text-sm text-ink placeholder-ink/40 outline-none transition focus:border-gold-bright focus:bg-white focus:ring-2 focus:ring-gold-bright/25"
+            />
+          </div>
+
+          <div>
+            <label for="loginPassword" class="mb-1.5 block text-xs font-semibold tracking-wider text-ink/75 uppercase">
+              Password
+            </label>
+            <div class="relative">
+              <input
+                id="loginPassword"
+                type="password"
+                autocomplete="current-password"
+                placeholder="Enter Password"
+                class="w-full rounded-xl border border-gold-soft bg-ivory/70 px-4 py-3 pr-12 text-sm text-ink placeholder-ink/40 outline-none transition focus:border-gold-bright focus:bg-white focus:ring-2 focus:ring-gold-bright/25"
+              />
+              <button
+                type="button"
+                id="togglePasswordBtn"
+                aria-label="Show password"
+                class="absolute inset-y-0 right-0 flex items-center justify-center px-3.5 text-gold hover:text-maroon transition"
+              >
+                <!-- Eye Open Icon -->
+                <svg id="eyeOpenIcon" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                  <circle cx="12" cy="12" r="3" />
+                </svg>
+                <!-- Eye Closed Icon -->
+                <svg id="eyeClosedIcon" class="hidden h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 3l18 18M10.584 10.587a2 2 0 002.828 2.828M9.88 5.09A9.77 9.77 0 0112 5c4.478 0 8.268 2.943 9.542 7a10.45 10.45 0 01-4.132 5.411M6.228 6.228A10.45 10.45 0 002.458 12c1.274 4.057 5.064 7 9.542 7 1.44 0 2.805-.305 4.035-.853" />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Keep Me Signed In Checkbox -->
+          <label class="flex cursor-pointer items-center gap-2.5 pt-1 text-xs text-ink/75 select-none">
+            <input
+              id="keepSignedIn"
+              type="checkbox"
+              checked
+              class="h-4 w-4 rounded border-gold-bright/60 text-maroon accent-maroon focus:ring-maroon/30"
+            />
+            <span>Keep me signed in on this device</span>
+          </label>
+
+          <!-- Playful Error Message -->
+          <p
+            id="loginError"
+            role="alert"
+            class="hidden rounded-xl border border-maroon/20 bg-maroon/5 px-3.5 py-2.5 text-center text-xs font-medium text-maroon"
+          >
+            Hmm, try again! Check the hint above 😉
+          </p>
+
+          <!-- Submit Button -->
+          <button
+            type="submit"
+            class="mt-2 flex w-full items-center justify-center gap-2 rounded-xl bg-maroon px-5 py-3.5 text-sm font-semibold tracking-wide text-ivory shadow-[0_10px_24px_rgba(107,29,47,0.28)] transition hover:bg-maroon-dark active:scale-[0.98]"
+          >
+            <svg class="h-4 w-4 text-gold-bright" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <rect x="5" y="11" width="14" height="10" rx="2" />
+              <path d="M8 11V7a4 4 0 118 0v4" />
+            </svg>
+            <span>Unlock Our Story</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- 2. INTERACTIVE WAX SEAL WELCOME OVERLAY (#waxSealScreen)              -->
+  <!-- ===================================================================== -->
+  <section
+    id="waxSealScreen"
+    class="fixed inset-0 z-40 hidden flex-col items-center justify-center bg-ivory px-6 text-center transition-opacity duration-700"
+    aria-label="Welcome Envelope Seal"
+  >
+    <div class="relative flex w-full max-w-sm flex-col items-center rounded-3xl border border-gold-bright/45 bg-ivory-card px-8 py-12 shadow-[0_24px_60px_rgba(107,29,47,0.12)]">
+      <!-- Gold inner border -->
+      <div class="pointer-events-none absolute inset-2.5 rounded-2xl border border-gold-bright/30"></div>
+
+      <p class="text-[11px] font-semibold tracking-[0.3em] text-gold uppercase">
+        OUR JOURNEY BEGINS
+      </p>
+      <h2 class="mt-2 font-serif text-4xl font-bold text-maroon sm:text-5xl">
+        #2awaare
+      </h2>
+
+      <!-- Decorative divider -->
+      <div class="my-6 flex w-36 items-center justify-center gap-2">
+        <span class="h-px flex-1 bg-gold-bright/50"></span>
+        <span class="h-1.5 w-1.5 rotate-45 bg-gold-bright"></span>
+        <span class="h-px flex-1 bg-gold-bright/50"></span>
       </div>
 
-      <p class="mt-2 text-[11px] font-semibold uppercase tracking-[0.3em] text-gold">Our Journey Begins</p>
-      <p class="mt-1.5 font-hand text-2xl text-muted">A Roka Keepsake • K &amp; H</p>
-
-      <!-- Gold Diamond Divider -->
-      <div class="my-7 flex items-center gap-3">
-        <span class="h-px w-10 bg-gold/45"></span>
-        <span class="h-1.5 w-1.5 rotate-45 bg-gold"></span>
-        <span class="h-px w-10 bg-gold/45"></span>
-      </div>
-
-      <!-- Tactile Deep-Maroon Wax Seal Button -->
+      <!-- Clickable Deep Maroon & Gold Wax Seal -->
       <button
-        id="openStoryBtn"
+        id="waxSealBtn"
         type="button"
-        class="seal-pulse group relative flex h-28 w-28 flex-col items-center justify-center rounded-full bg-maroon text-ivory shadow-seal transition-transform duration-300 hover:bg-maroonDark active:scale-95 focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 focus:ring-offset-ivory"
-        aria-label="Tap to open our story"
+        aria-label="Tap the K and H wax seal to open"
+        class="wax-seal-btn group relative my-2 flex h-32 w-32 items-center justify-center rounded-full bg-gradient-to-br from-maroon-light via-maroon to-maroon-dark text-ivory transition-transform duration-300 hover:scale-105 active:scale-95"
       >
-        <span class="pointer-events-none absolute inset-2 rounded-full border border-dashed border-goldSoft/65"></span>
-        <span class="font-display text-lg font-semibold tracking-wider text-goldSoft">K &amp; H</span>
-        <span class="my-1 h-px w-8 bg-goldSoft/40"></span>
-        <span class="text-[9.5px] font-semibold uppercase tracking-[0.22em] text-ivory/95">Tap to Open</span>
+        <!-- Outer scalloped ring -->
+        <span class="pointer-events-none absolute inset-1.5 rounded-full border-2 border-dashed border-gold-bright/65"></span>
+        <!-- Inner embossed ring -->
+        <span class="pointer-events-none absolute inset-3.5 rounded-full border border-gold-bright/50"></span>
+        <span class="font-serif text-3xl font-semibold tracking-wider text-ivory drop-shadow">
+          K &amp; H
+        </span>
       </button>
 
-      <p class="mt-6 text-xs text-muted/85">Turn your volume up for the end</p>
+      <p class="mt-6 text-xs font-medium tracking-[0.2em] text-gold uppercase">
+        Tap the seal to open
+      </p>
     </div>
-  </div>
+  </section>
 
-  <!-- =========================================================
-       MAIN STORY CONTAINER (Mobile-first, centered)
-  ========================================================== -->
-  <main class="relative mx-auto w-full max-w-[460px] px-4 pb-20 pt-8">
+  <!-- ===================================================================== -->
+  <!-- 3. MAIN WEBPAGE CONTENT (#mainContent)                                -->
+  <!-- ===================================================================== -->
+  <main id="mainContent" class="hidden opacity-0 transition-opacity duration-700">
+    <div class="mx-auto max-w-xl px-4 pb-20 pt-10 sm:px-6">
 
-    <!-- =========================================================
-         2. HEADER
-    ========================================================== -->
-    <header class="reveal mb-10 text-center">
-      <!-- Optional logo.png in Header (falls back cleanly to typography) -->
-      <img
-        src="logo.png"
-        alt="#2awaare Logo"
-        class="mx-auto mb-3 h-24 w-24 rounded-full border border-gold/30 bg-parchment object-contain p-1 shadow-sm"
-        onerror="handleLogoError(this, 'headerFallbackTitle')"
-      />
-      <div id="headerFallbackTitle" class="hidden">
-        <h2 class="font-display text-4xl font-bold tracking-tight text-maroon">#2awaare</h2>
-      </div>
+      <!-- ================================================================= -->
+      <!-- HEADER: Optional logo.png + Fallback #2awaare Calligraphy         -->
+      <!-- ================================================================= -->
+      <header class="mb-12 flex flex-col items-center text-center">
+        <!-- Optional Logo (auto-hides gracefully if logo.png is not present) -->
+        <img
+          id="customLogo"
+          src="logo.png"
+          alt="#2awaare Logo"
+          class="mb-4 h-36 w-36 rounded-full object-contain drop-shadow-sm"
+          onerror="this.style.display='none'; document.getElementById('fallbackHeader').classList.remove('hidden');"
+        />
 
-      <p class="mt-2 text-[11px] font-semibold uppercase tracking-[0.3em] text-gold">Our Journey Begins</p>
-
-      <!-- Delicate Gold Compass Divider -->
-      <div class="mx-auto mt-4 flex items-center justify-center gap-3 text-gold">
-        <span class="h-px w-14 bg-gold/40"></span>
-        <svg class="h-6 w-6" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">
-          <circle cx="16" cy="16" r="11" stroke-opacity="0.45" />
-          <polygon points="16,4 18.4,13.6 28,16 18.4,18.4 16,28 13.6,18.4 4,16 13.6,13.6" fill="rgba(184,138,68,0.18)" />
-          <circle cx="16" cy="16" r="1.6" fill="#6B1D2F" stroke="none" />
-        </svg>
-        <span class="h-px w-14 bg-gold/40"></span>
-      </div>
-    </header>
-
-    <!-- =========================================================
-         3. CHAPTER 1 — WHERE IT ALL STARTED: KEDARNATH
-            1.jpg (Hero) & 2.jpg (Moonlit Twilight Card)
-    ========================================================== -->
-    <section class="reveal mb-14">
-      <div class="mb-5 text-center">
-        <p class="text-[10px] font-semibold uppercase tracking-[0.28em] text-gold">Chapter 01</p>
-        <h3 class="mt-1 font-display text-2xl font-bold text-maroon">Where It All Started: Kedarnath</h3>
-      </div>
-
-      <!-- 1.jpeg: Full-Width Hero Photo -->
-      <article class="mb-7 overflow-hidden rounded-[26px] border border-sand bg-parchment shadow-hero">
-        <div class="relative aspect-[4/5] w-full overflow-hidden bg-sand/40">
-          <img
-            src="1.jpeg"
-            alt="Kedarnath — where our story began."
-            data-caption="Kedarnath — where our story began."
-            class="zoomable h-full w-full object-cover transition-transform duration-700 hover:scale-[1.02]"
-            onerror="handleImgError(this, '1.jpeg', 'Kedarnath', '800x1000')"
-          />
-          <div class="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-espresso/75 via-espresso/20 to-transparent"></div>
-          <div class="pointer-events-none absolute inset-x-0 bottom-0 p-5 text-left">
-            <p class="font-display text-lg italic text-ivory">Kedarnath — where our story began.</p>
+        <!-- Stylized Fallback Header (shown if logo.png isn't found, or kept clean below) -->
+        <div id="fallbackHeader" class="hidden flex flex-col items-center">
+          <div class="mb-2 inline-flex items-center gap-2 rounded-full border border-gold-bright/40 bg-ivory-card px-3.5 py-1 text-[10px] font-semibold tracking-[0.28em] text-gold uppercase">
+            <span>K &amp; H</span>
+            <span class="text-gold-bright">•</span>
+            <span>Roka Keepsake</span>
           </div>
+          <h1 class="font-serif text-5xl font-bold tracking-tight text-maroon sm:text-6xl">
+            #2awaare
+          </h1>
+          <p class="mt-2 text-xs font-semibold tracking-[0.32em] text-gold uppercase">
+            OUR JOURNEY BEGINS
+          </p>
         </div>
-      </article>
 
-      <!-- 2.jpeg: Special Twilight / Moonlit Card -->
-      <article class="relative overflow-hidden rounded-[26px] border border-gold/50 bg-gradient-to-b from-twilight via-twilight to-twilightDeep p-5 text-ivory shadow-twilight">
-        <!-- Subtle Decorative Gold Stars & Crescent Moon -->
-        <svg class="star-twinkle pointer-events-none absolute right-5 top-4 h-5 w-5 text-goldSoft" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <path d="M12 2l2.1 6.3L20.5 10l-6.4 1.7L12 18l-2.1-6.3L3.5 10l6.4-1.7L12 2z" />
-        </svg>
-        <svg class="star-twinkle-delay pointer-events-none absolute left-5 top-6 h-3.5 w-3.5 text-goldSoft/80" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <path d="M12 2l2.1 6.3L20.5 10l-6.4 1.7L12 18l-2.1-6.3L3.5 10l6.4-1.7L12 2z" />
-        </svg>
-        <svg class="pointer-events-none absolute right-14 top-7 h-2 w-2 text-goldSoft/60" viewBox="0 0 10 10" fill="currentColor" aria-hidden="true">
-          <circle cx="5" cy="5" r="4" />
-        </svg>
-
-        <!-- Crescent Moon Badge -->
-        <div class="mb-4 flex items-center justify-center gap-2 text-goldSoft">
-          <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-            <path d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z" />
+        <!-- Subtle Compass Divider -->
+        <div class="mt-5 flex w-56 items-center justify-center gap-3">
+          <span class="h-px flex-1 bg-gradient-to-r from-transparent to-gold-bright/70"></span>
+          <svg class="h-5 w-5 text-gold-bright" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <circle cx="12" cy="12" r="9" stroke-opacity="0.55" />
+            <path d="M12 3l2 7 7 2-7 2-2 7-2-7-7-2 7-2 2-7z" fill="#A67C52" stroke="#6B1D2F" stroke-width="1" />
           </svg>
-          <span class="text-[10px] font-semibold uppercase tracking-[0.26em]">Under The Moon</span>
+          <span class="h-px flex-1 bg-gradient-to-l from-transparent to-gold-bright/70"></span>
         </div>
 
-        <div class="overflow-hidden rounded-[18px] border border-gold/35 bg-twilightDeep">
-          <img
-            src="2.jpeg"
-            alt="Trekking down under the moon"
-            data-caption="Kaash abhi 2 chairs aur 2 cups of tea hoti… — Trekking down under the moon."
-            class="zoomable aspect-[4/3] w-full object-cover"
-            onerror="handleImgError(this, '2.jpeg', 'Moon on Kedarnath Trek', '800x600')"
-          />
-        </div>
-
-        <div class="px-2 pb-1 pt-5 text-center">
-          <blockquote class="font-display text-xl italic leading-relaxed text-goldSoft">
-            “Kaash abhi 2 chairs aur 2 cups of tea hoti…”
-          </blockquote>
-          <p class="mt-2 text-xs tracking-wide text-ivory/75">Trekking down under the moon.</p>
-        </div>
-      </article>
-    </section>
-
-    <!-- =========================================================
-         4. CHAPTER 2 — THE GWALIOR DATES
-            3.jpeg & 4.jpeg (Polaroid Cards)
-    ========================================================== -->
-    <section class="reveal mb-14">
-      <div class="mb-6 text-center">
-        <p class="text-[10px] font-semibold uppercase tracking-[0.28em] text-gold">Chapter 02</p>
-        <h3 class="mt-1 font-display text-2xl font-bold text-maroon">The Gwalior Dates</h3>
-      </div>
-
-      <div class="space-y-7">
-        <!-- 3.jpeg: First Date Polaroid -->
-        <figure class="mx-auto max-w-[390px] -rotate-[1deg] rounded-2xl border border-sand bg-white p-3.5 pb-6 shadow-polaroid transition-transform duration-300 hover:rotate-0">
-          <div class="overflow-hidden rounded-xl bg-sand/40">
-            <img
-              src="3.jpeg"
-              alt="Our official first date in Gwalior"
-              data-caption="Our official first date — all the way to Gwalior, just for you."
-              class="zoomable aspect-[4/4] w-full object-cover"
-              onerror="handleImgError(this, '3.jpeg', 'First Date in Gwalior', '800x800')"
-            />
-          </div>
-          <figcaption class="mt-4 px-2 text-center font-hand text-[23px] leading-snug text-espresso">
-            Our official first date — all the way to Gwalior, just for you.
-          </figcaption>
-        </figure>
-
-        <!-- 4.jpeg: Second Date Polaroid -->
-        <figure class="mx-auto max-w-[390px] rotate-[1deg] rounded-2xl border border-sand bg-white p-3.5 pb-6 shadow-polaroid transition-transform duration-300 hover:rotate-0">
-          <div class="overflow-hidden rounded-xl bg-sand/40">
-            <img
-              src="4.jpeg"
-              alt="Second date in Gwalior"
-              data-caption="Second date in Gwalior — and it already felt like home."
-              class="zoomable aspect-[4/4] w-full object-cover"
-              onerror="handleImgError(this, '4.jpeg', 'Second Date in Gwalior', '800x800')"
-            />
-          </div>
-          <figcaption class="mt-4 px-2 text-center font-hand text-[23px] leading-snug text-espresso">
-            Second date in Gwalior — and it already felt like home.
-          </figcaption>
-        </figure>
-      </div>
-    </section>
-
-    <!-- =========================================================
-         5. CHAPTER 3 — THE REAL US (FUN & QUIRKY MOMENTS)
-            5.jpeg (Mad Photo), 6.jpeg & 12.jpeg (Sleeping Demon), 15.jpeg (Flower Leaf)
-    ========================================================== -->
-    <section class="reveal mb-14">
-      <div class="mb-6 text-center">
-        <p class="text-[10px] font-semibold uppercase tracking-[0.28em] text-gold">Chapter 03</p>
-        <h3 class="mt-1 font-display text-2xl font-bold text-maroon">The Real Us</h3>
-      </div>
-
-      <!-- 5.jpeg: Playfully Tilted Polaroid -->
-      <figure class="mx-auto mb-8 max-w-[385px] -rotate-[2deg] rounded-2xl border border-sand bg-white p-3.5 pb-6 shadow-polaroid transition-transform duration-300 hover:rotate-0">
-        <div class="overflow-hidden rounded-xl bg-sand/40">
-          <img
-            src="5.jpeg"
-            alt="Official proof that we're both equally mad"
-            data-caption="Official proof that we're both equally mad."
-            class="zoomable aspect-[4/4] w-full object-cover"
-            onerror="handleImgError(this, '5.jpeg', 'Our Mad Photo', '800x800')"
-          />
-        </div>
-        <figcaption class="mt-4 px-2 text-center font-hand text-[24px] leading-snug text-espresso">
-          Official proof that we're both equally mad.
-        </figcaption>
-      </figure>
-
-      <!-- 6.jpeg & 12.jpeg: Shhh... The Demon Is Sleeping -->
-      <div class="mb-8 rounded-[24px] border border-sand bg-parchment p-4 shadow-card">
-        <div class="mb-4 text-center">
-          <span class="inline-block rounded-full bg-maroon/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-maroon">
-            Do Not Disturb
-          </span>
-          <h4 class="mt-2 font-display text-xl font-semibold text-maroon">Shhh… The Demon Is Sleeping</h4>
-        </div>
-
-        <div class="grid grid-cols-2 gap-3">
-          <div class="overflow-hidden rounded-2xl border border-sand bg-sand/40">
-            <img
-              src="6.jpeg"
-              alt="The demon is sleeping (part 1)"
-              data-caption="Shhh… The Demon Is Sleeping — Rare peaceful moments caught on camera."
-              class="zoomable aspect-[3/4] w-full object-cover"
-              onerror="handleImgError(this, '6.jpeg', 'Demon Sleeping 1', '600x800')"
-            />
-          </div>
-          <div class="overflow-hidden rounded-2xl border border-sand bg-sand/40">
-            <img
-              src="12.jpeg"
-              alt="The demon is sleeping (part 2)"
-              data-caption="Shhh… The Demon Is Sleeping — Rare peaceful moments caught on camera."
-              class="zoomable aspect-[3/4] w-full object-cover"
-              onerror="handleImgError(this, '12.jpeg', 'Demon Sleeping 2', '600x800')"
-            />
-          </div>
-        </div>
-
-        <p class="mt-3.5 text-center font-hand text-[22px] text-muted">
-          Rare peaceful moments caught on camera.
+        <p class="mt-4 max-w-sm text-xs leading-relaxed text-ink/65">
+          Tap any Polaroid to flip it and read the note written on the back. Tap the corner icon to zoom in.
         </p>
+      </header>
+
+      <!-- ================================================================= -->
+      <!-- CHAPTERS CONTAINER (Rendered via JS for clean, exact 17 cards)    -->
+      <!-- ================================================================= -->
+      <div id="chaptersContainer" class="space-y-16">
+        <!-- Chapter I — Where It All Started -->
+        <section>
+          <div class="mb-6 text-center">
+            <span class="text-[11px] font-semibold tracking-[0.28em] text-gold uppercase">Chapter I</span>
+            <h2 class="mt-1 font-serif text-2xl font-bold text-maroon sm:text-3xl">Where It All Started</h2>
+          </div>
+          <div id="chapter1Grid" class="space-y-6"></div>
+        </section>
+
+        <!-- Chapter II — Gwalior Diaries -->
+        <section>
+          <div class="mb-6 text-center">
+            <span class="text-[11px] font-semibold tracking-[0.28em] text-gold uppercase">Chapter II</span>
+            <h2 class="mt-1 font-serif text-2xl font-bold text-maroon sm:text-3xl">Gwalior Diaries</h2>
+          </div>
+          <div id="chapter2Grid" class="space-y-6"></div>
+        </section>
+
+        <!-- Chapter III — The Real Us -->
+        <section>
+          <div class="mb-6 text-center">
+            <span class="text-[11px] font-semibold tracking-[0.28em] text-gold uppercase">Chapter III</span>
+            <h2 class="mt-1 font-serif text-2xl font-bold text-maroon sm:text-3xl">The Real Us</h2>
+          </div>
+          <div id="chapter3Grid" class="grid grid-cols-1 gap-6 sm:grid-cols-2"></div>
+        </section>
+
+        <!-- Chapter IV — Little Celebrations & Favorite Corners -->
+        <section>
+          <div class="mb-6 text-center">
+            <span class="text-[11px] font-semibold tracking-[0.28em] text-gold uppercase">Chapter IV</span>
+            <h2 class="mt-1 font-serif text-2xl font-bold text-maroon sm:text-3xl">Little Celebrations &amp; Favorite Corners</h2>
+          </div>
+          <div id="chapter4Grid" class="grid grid-cols-1 gap-6 sm:grid-cols-2"></div>
+        </section>
+
+        <!-- Chapter V — Mountains & Miles (Swipeable Polaroid Carousel) -->
+        <section>
+          <div class="mb-6 text-center">
+            <span class="text-[11px] font-semibold tracking-[0.28em] text-gold uppercase">Chapter V</span>
+            <h2 class="mt-1 font-serif text-2xl font-bold text-maroon sm:text-3xl">Mountains &amp; Miles</h2>
+            <p class="mt-1.5 text-xs text-ink/60">Swipe through our favorite mountain escapes &amp; tap any card to flip</p>
+          </div>
+
+          <div
+            id="tripsCarousel"
+            class="no-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto pb-4 pt-1 -mx-4 px-4 sm:mx-0 sm:px-0"
+          ></div>
+
+          <!-- 3 Interactive Pagination Dots -->
+          <div id="carouselDots" class="mt-3 flex items-center justify-center gap-2.5" role="tablist" aria-label="Trip slides">
+            <button type="button" data-slide="0" aria-label="Slide 1: Dalhousie" class="carousel-dot h-2.5 w-7 rounded-full bg-maroon transition-all duration-300"></button>
+            <button type="button" data-slide="1" aria-label="Slide 2: Khajjiar" class="carousel-dot h-2.5 w-2.5 rounded-full bg-gold-bright/45 transition-all duration-300"></button>
+            <button type="button" data-slide="2" aria-label="Slide 3: Chakrata" class="carousel-dot h-2.5 w-2.5 rounded-full bg-gold-bright/45 transition-all duration-300"></button>
+          </div>
+        </section>
+
+        <!-- Chapter VI — The Proposal & Our Forever -->
+        <section>
+          <div class="mb-6 text-center">
+            <span class="text-[11px] font-semibold tracking-[0.28em] text-gold uppercase">Chapter VI</span>
+            <h2 class="mt-1 font-serif text-2xl font-bold text-maroon sm:text-3xl">The Proposal &amp; Our Forever</h2>
+          </div>
+          <div id="chapter6Grid" class="space-y-6"></div>
+        </section>
       </div>
 
-      <!-- 15.jpeg: Holding a Flower Leaf — Just Aise Hi -->
-      <figure class="mx-auto max-w-[385px] rotate-[1.25deg] rounded-2xl border border-sand bg-white p-3.5 pb-6 shadow-polaroid transition-transform duration-300 hover:rotate-0">
-        <div class="overflow-hidden rounded-xl bg-sand/40">
-          <img
-            src="15.jpeg"
-            alt="Me holding a flower leaf, just aise hi"
-            data-caption="Holding a flower leaf… just aise hi."
-            class="zoomable aspect-[4/4] w-full object-cover"
-            onerror="handleImgError(this, '15.jpeg', 'Flower Leaf — Just Aise Hi', '800x800')"
-          />
-        </div>
-        <figcaption class="mt-4 px-2 text-center font-hand text-[24px] leading-snug text-espresso">
-          Holding a flower leaf… just aise hi.
-        </figcaption>
-      </figure>
-    </section>
+      <!-- ================================================================= -->
+      <!-- HEARTFELT LIFE NOTE (Warm Cream Stationery)                       -->
+      <!-- ================================================================= -->
+      <section class="mt-20">
+        <div class="relative rounded-3xl border border-gold-bright/45 bg-ivory-card p-2 shadow-[0_14px_40px_rgba(107,29,47,0.08)]">
+          <div class="relative rounded-2xl border border-gold-bright/30 px-6 py-9 sm:px-9 sm:py-11">
+            <!-- Delicate Gold Corners -->
+            <span class="pointer-events-none absolute top-3 left-3 h-5 w-5 border-t-2 border-l-2 border-gold-bright/70 rounded-tl-md"></span>
+            <span class="pointer-events-none absolute top-3 right-3 h-5 w-5 border-t-2 border-r-2 border-gold-bright/70 rounded-tr-md"></span>
+            <span class="pointer-events-none absolute bottom-3 left-3 h-5 w-5 border-b-2 border-l-2 border-gold-bright/70 rounded-bl-md"></span>
+            <span class="pointer-events-none absolute bottom-3 right-3 h-5 w-5 border-b-2 border-r-2 border-gold-bright/70 rounded-br-md"></span>
 
-    <!-- =========================================================
-         6. CHAPTER 4 — LITTLE MILESTONES & FAVORITES
-            7.jpeg & 8.jpeg (Birthday), 9.jpeg (Punchgaon), 10.jpeg (Macramé)
-    ========================================================== -->
-    <section class="reveal mb-14">
-      <div class="mb-6 text-center">
-        <p class="text-[10px] font-semibold uppercase tracking-[0.28em] text-gold">Chapter 04</p>
-        <h3 class="mt-1 font-display text-2xl font-bold text-maroon">Little Milestones &amp; Favorites</h3>
-      </div>
-
-      <div class="space-y-6">
-        <!-- My Birthday (7.jpeg & 8.jpeg in 2-column grid) -->
-        <article class="rounded-[24px] border border-sand bg-parchment p-4 shadow-card">
-          <h4 class="mb-3 text-center font-display text-lg font-semibold text-maroon">My Birthday</h4>
-          <div class="grid grid-cols-2 gap-3">
-            <div class="overflow-hidden rounded-2xl border border-sand bg-sand/40">
-              <img
-                src="7.jpeg"
-                alt="My Birthday photo 1"
-                data-caption="Celebrating my birthday with my favorite person."
-                class="zoomable aspect-[4/5] w-full object-cover"
-                onerror="handleImgError(this, '7.jpeg', 'My Birthday 1', '600x750')"
-              />
+            <div class="mb-6 text-center">
+              <span class="text-[11px] font-semibold tracking-[0.28em] text-gold uppercase">A Note For Life</span>
+              <h2 class="mt-1 font-serif text-2xl font-bold text-maroon sm:text-3xl">To My Forever Travel Partner</h2>
             </div>
-            <div class="overflow-hidden rounded-2xl border border-sand bg-sand/40">
-              <img
-                src="8.jpeg"
-                alt="My Birthday photo 2"
-                data-caption="Celebrating my birthday with my favorite person."
-                class="zoomable aspect-[4/5] w-full object-cover"
-                onerror="handleImgError(this, '8.jpeg', 'My Birthday 2', '600x750')"
-              />
+
+            <div class="space-y-4 text-sm leading-7 text-ink/85 sm:text-[15px]">
+              <p>
+                From one lucky seat next to you on a bus to Kedarnath, to standing beside you today as our families bless our new beginning—every single mile with you has felt like coming home.
+              </p>
+              <p>
+                Thank you for matching my weirdness, for turning ordinary road trips and quiet evenings into memories I will hold onto forever, and for giving me a cardboard ring I’ll treasure more than anything else in the world.
+              </p>
+              <p>
+                As we officially begin our <span class="font-serif italic text-maroon font-medium">#2awaare</span> chapter, I promise to always be your biggest cheerleader, your favorite chai companion, and the one who never lets you forget how deeply you are loved.
+              </p>
+            </div>
+
+            <div class="mt-8 text-right">
+              <p class="font-serif text-xl italic text-maroon">— Forever yours, K</p>
             </div>
           </div>
-          <p class="mt-3.5 text-center font-hand text-[22px] text-muted">
-            Celebrating my birthday with my favorite person.
-          </p>
-        </article>
-
-        <!-- Our Favorite Place (9.jpeg — Punchgaon) -->
-        <article class="rounded-[24px] border border-sand bg-parchment p-4 shadow-card">
-          <h4 class="mb-3 text-center font-display text-lg font-semibold text-maroon">Our Favorite Place</h4>
-          <div class="overflow-hidden rounded-2xl border border-sand bg-sand/40">
-            <img
-              src="9.jpeg"
-              alt="Punchgaon — our go-to spot"
-              data-caption="Punchgaon — our go-to spot."
-              class="zoomable aspect-[4/3] w-full object-cover"
-              onerror="handleImgError(this, '9.jpeg', 'Punchgaon', '800x600')"
-            />
-          </div>
-          <p class="mt-3.5 text-center font-hand text-[22px] text-muted">
-            Punchgaon — our go-to spot.
-          </p>
-        </article>
-
-        <!-- Made Together (10.jpeg — Macramé K & H) -->
-        <article class="rounded-[24px] border border-sand bg-parchment p-4 shadow-card">
-          <h4 class="mb-3 text-center font-display text-lg font-semibold text-maroon">Made Together</h4>
-          <div class="overflow-hidden rounded-2xl border border-sand bg-sand/40">
-            <img
-              src="10.jpeg"
-              alt="Our macramé art — K & H"
-              data-caption="Our macramé art — K & H, woven together by hand."
-              class="zoomable aspect-[4/3] w-full object-cover"
-              onerror="handleImgError(this, '10.jpeg', 'Macramé Art K & H', '800x600')"
-            />
-          </div>
-          <p class="mt-3.5 text-center font-hand text-[22px] text-muted">
-            Our macramé art — K &amp; H, woven together by hand.
-          </p>
-        </article>
-      </div>
-    </section>
-
-    <!-- =========================================================
-         7. CHAPTER 5 — TWO WANDERERS: OUR TRIPS
-            Horizontal Swipeable Polaroid Carousel: 11, 13, 14
-    ========================================================== -->
-    <section class="reveal mb-14">
-      <div class="rounded-[26px] border border-sand bg-parchment py-6 shadow-card">
-        <div class="px-5 text-center">
-          <p class="text-[10px] font-semibold uppercase tracking-[0.28em] text-gold">Chapter 05</p>
-          <h3 class="mt-1 font-display text-2xl font-bold text-maroon">Two Wanderers: Our Trips</h3>
-          <p class="mt-1.5 inline-flex items-center gap-1.5 text-xs font-medium text-muted">
-            <span>Swipe through our memories</span>
-            <span aria-hidden="true">→</span>
-          </p>
         </div>
+      </section>
 
-        <!-- Horizontal Scroll-Snap Carousel -->
-        <div
-          id="tripCarousel"
-          class="no-scrollbar mt-5 flex snap-x snap-mandatory gap-4 overflow-x-auto px-6 pb-3 pt-1"
-          aria-label="Our Trips Polaroid Carousel"
+      <!-- ================================================================= -->
+      <!-- CUSTOM AUDIO MESSAGE PLAYER (audio.m4a)                           -->
+      <!-- ================================================================= -->
+      <section class="mt-12">
+        <div id="audioCard" class="rounded-3xl border border-gold-bright/40 bg-ivory-card p-6 shadow-[0_12px_36px_rgba(107,29,47,0.08)] sm:p-7">
+          <div class="mb-4 text-center">
+            <span class="text-[10px] font-semibold tracking-[0.28em] text-gold uppercase">Voice Note</span>
+            <h3 class="mt-1 font-serif text-xl font-bold text-maroon">Turn Your Volume Up &amp; Listen</h3>
+          </div>
+
+          <div class="flex items-center gap-4">
+            <!-- Play / Pause Button -->
+            <button
+              id="audioPlayBtn"
+              type="button"
+              aria-label="Play voice message"
+              class="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-full bg-maroon text-ivory shadow-[0_8px_20px_rgba(107,29,47,0.32)] transition hover:bg-maroon-dark active:scale-95"
+            >
+              <!-- Play Icon -->
+              <svg id="playIcon" class="ml-0.5 h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M8 5.14v14l11-7-11-7z" />
+              </svg>
+              <!-- Pause Icon -->
+              <svg id="pauseIcon" class="hidden h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
+                <rect x="6" y="5" width="4" height="14" rx="1" />
+                <rect x="14" y="5" width="4" height="14" rx="1" />
+              </svg>
+            </button>
+
+            <!-- 16-Bar Animated Waveform + Seek Bar -->
+            <div class="flex-1 min-w-0">
+              <div id="waveformBars" class="mb-2.5 flex h-9 items-center justify-between gap-1 px-0.5" aria-hidden="true">
+                <!-- 16 bars injected via JS -->
+              </div>
+
+              <input
+                id="audioSeek"
+                type="range"
+                min="0"
+                max="100"
+                value="0"
+                aria-label="Audio progress"
+                class="audio-seek w-full cursor-pointer"
+              />
+              <div class="mt-1.5 flex justify-between text-[11px] font-medium text-gold">
+                <span id="audioCurrentTime">0:00</span>
+                <span id="audioDuration">0:00</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Inline Status Message (for preview when audio.m4a isn't uploaded yet) -->
+          <p id="audioStatusMsg" class="mt-3 hidden rounded-xl bg-ivory px-3 py-2 text-center text-xs text-maroon/80"></p>
+
+          <audio id="voiceNoteAudio" src="audio.m4a" preload="metadata"></audio>
+        </div>
+      </section>
+
+      <!-- ================================================================= -->
+      <!-- VIDEO NOTE CARD (video.mp4 with poster="16.jpeg")                 -->
+      <!-- ================================================================= -->
+      <section class="mt-12">
+        <div class="rounded-3xl border border-gold-bright/45 bg-ivory-card p-3 shadow-[0_14px_40px_rgba(107,29,47,0.08)] sm:p-4">
+          <div class="rounded-2xl border border-gold-bright/30 p-3 sm:p-4">
+            <div class="mb-4 text-center">
+              <span class="text-[10px] font-semibold tracking-[0.28em] text-gold uppercase">A Little Film For You</span>
+              <h3 class="mt-1 font-serif text-xl font-bold text-maroon">Watch When You’re Ready</h3>
+            </div>
+
+            <div class="overflow-hidden rounded-xl bg-maroon-dark/95 shadow-inner">
+              <video
+                id="videoNote"
+                controls
+                playsinline
+                preload="metadata"
+                poster="16.jpeg"
+                class="aspect-video w-full object-cover"
+              >
+                <source src="video.mp4" type="video/mp4" />
+                Your browser does not support embedded video playback.
+              </video>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================= -->
+      <!-- FOOTER + SUBTLE "LOCK PAGE" BUTTON                                -->
+      <!-- ================================================================= -->
+      <footer class="mt-16 flex flex-col items-center border-t border-gold-bright/30 pt-8 text-center">
+        <p class="font-serif text-base font-medium text-maroon">
+          #2awaare <span class="mx-1.5 text-gold-bright">•</span> Forever Begins Now
+        </p>
+        <p class="mt-1 text-[11px] tracking-wider text-gold">
+          Made with all my heart for K &amp; H
+        </p>
+
+        <!-- Subtle Lock Page Button -->
+        <button
+          id="lockPageBtn"
+          type="button"
+          class="mt-5 inline-flex items-center gap-1.5 rounded-full border border-gold-bright/40 bg-ivory-card px-3.5 py-1.5 text-[11px] font-medium text-gold transition hover:border-maroon/40 hover:text-maroon active:scale-95"
         >
-          <!-- 11.jpeg — Dalhousie -->
-          <figure class="w-[82%] shrink-0 snap-center -rotate-[1deg] rounded-2xl border border-sand bg-white p-3 pb-5 shadow-polaroid">
-            <div class="overflow-hidden rounded-xl bg-sand/40">
-              <img
-                src="11.jpeg"
-                alt="Dalhousie"
-                data-caption="Dalhousie"
-                class="zoomable aspect-[4/4] w-full object-cover"
-                onerror="handleImgError(this, '11.jpeg', 'Dalhousie', '800x800')"
-              />
-            </div>
-            <figcaption class="mt-3.5 text-center font-hand text-[23px] text-espresso">
-              Dalhousie
-            </figcaption>
-          </figure>
-
-          <!-- 13.jpeg — Khajjiar -->
-          <figure class="w-[82%] shrink-0 snap-center rotate-[1deg] rounded-2xl border border-sand bg-white p-3 pb-5 shadow-polaroid">
-            <div class="overflow-hidden rounded-xl bg-sand/40">
-              <img
-                src="13.jpeg"
-                alt="Khajjiar — our favorite couple click"
-                data-caption="Khajjiar — our favorite couple click"
-                class="zoomable aspect-[4/4] w-full object-cover"
-                onerror="handleImgError(this, '13.jpeg', 'Khajjiar', '800x800')"
-              />
-            </div>
-            <figcaption class="mt-3.5 text-center font-hand text-[23px] text-espresso">
-              Khajjiar — our favorite couple click
-            </figcaption>
-          </figure>
-
-          <!-- 14.jpeg — Chakrata -->
-          <figure class="w-[82%] shrink-0 snap-center -rotate-[0.75deg] rounded-2xl border border-sand bg-white p-3 pb-5 shadow-polaroid">
-            <div class="overflow-hidden rounded-xl bg-sand/40">
-              <img
-                src="14.jpeg"
-                alt="Chakrata — mountain air & us"
-                data-caption="Chakrata — mountain air & us"
-                class="zoomable aspect-[4/4] w-full object-cover"
-                onerror="handleImgError(this, '14.jpeg', 'Chakrata', '800x800')"
-              />
-            </div>
-            <figcaption class="mt-3.5 text-center font-hand text-[23px] text-espresso">
-              Chakrata — mountain air &amp; us
-            </figcaption>
-          </figure>
-        </div>
-
-        <!-- Carousel Indicator Dots -->
-        <div id="carouselDots" class="mt-3 flex items-center justify-center gap-2" aria-hidden="true">
-          <span class="dot h-2 w-6 rounded-full bg-maroon transition-all duration-300"></span>
-          <span class="dot h-2 w-2 rounded-full bg-gold/40 transition-all duration-300"></span>
-          <span class="dot h-2 w-2 rounded-full bg-gold/40 transition-all duration-300"></span>
-        </div>
-      </div>
-    </section>
-
-    <!-- =========================================================
-         8. CHAPTER 6 — THE PROPOSAL & THE RINGS
-            16.jpeg (Proposal Hero) & 17.jpeg (Gold + Cardboard Ring Spotlight)
-    ========================================================== -->
-    <section class="reveal mb-14">
-      <div class="mb-6 text-center">
-        <p class="text-[10px] font-semibold uppercase tracking-[0.28em] text-gold">Chapter 06</p>
-        <h3 class="mt-1 font-display text-2xl font-bold text-maroon">The Proposal &amp; The Rings</h3>
-      </div>
-
-      <!-- 16.jpeg: Full-Width Romantic Proposal Hero Card -->
-      <article class="mb-7 overflow-hidden rounded-[26px] border border-gold/45 bg-parchment shadow-hero">
-        <div class="relative aspect-[4/5] w-full overflow-hidden bg-sand/40">
-          <img
-            src="16.jpeg"
-            alt="The day I proposed"
-            data-caption="The day I proposed."
-            class="zoomable h-full w-full object-cover"
-            onerror="handleImgError(this, '16.jpeg', 'The Day I Proposed', '800x1000')"
-          />
-          <div class="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-espresso/75 via-espresso/20 to-transparent"></div>
-          <div class="pointer-events-none absolute inset-x-0 bottom-0 p-5 text-left">
-            <span class="inline-block rounded-full bg-gold/90 px-3 py-0.5 text-[10px] font-semibold uppercase tracking-[0.22em] text-white">
-              She Said Yes
-            </span>
-            <p class="mt-2 font-display text-2xl font-semibold italic text-ivory">The day I proposed.</p>
-          </div>
-        </div>
-      </article>
-
-      <!-- 17.jpeg: Intimate Spotlight Card (Gold Ring & Cardboard Ring) -->
-      <article class="relative overflow-hidden rounded-[26px] border-2 border-gold/60 bg-gradient-to-b from-parchment via-parchment to-ivory p-4 shadow-goldGlow">
-        <div class="mb-3 flex items-center justify-center gap-2 text-gold">
-          <span class="h-px w-8 bg-gold/45"></span>
-          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M12 3l2.2 3.1L12 8.4 9.8 6.1 12 3z" fill="currentColor" fill-opacity="0.2" />
-            <circle cx="12" cy="14.5" r="5.8" />
+          <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <rect x="5" y="11" width="14" height="10" rx="2" />
+            <path d="M8 11V7a4 4 0 118 0v4" />
           </svg>
-          <span class="h-px w-8 bg-gold/45"></span>
-        </div>
-
-        <div class="overflow-hidden rounded-[20px] border border-gold/30 bg-sand/40">
-          <img
-            src="17.jpeg"
-            alt="Our hands wearing rings — gold ring and handmade cardboard ring"
-            data-caption="Your gold ring, and the cardboard ring you made for me — the most priceless ring I'll ever wear."
-            class="zoomable aspect-[4/4] w-full object-cover"
-            onerror="handleImgError(this, '17.jpeg', 'Gold & Cardboard Rings', '800x800')"
-          />
-        </div>
-
-        <div class="px-2 pb-2 pt-5 text-center">
-          <p class="font-display text-[17px] italic leading-relaxed text-maroon">
-            “Your gold ring, and the cardboard ring you made for me — the most priceless ring I’ll ever wear.”
-          </p>
-        </div>
-      </article>
-    </section>
-
-    <!-- =========================================================
-         9. CHAPTER 7 — A NOTE FOR YOU (Cream Stationery Letter)
-    ========================================================== -->
-    <section class="reveal mb-14">
-      <div class="relative rounded-[24px] border-2 border-gold/45 bg-parchment p-2 shadow-card">
-        <!-- Inner Thin Gold Double Border -->
-        <div class="rounded-[18px] border border-gold/30 px-5 py-8 sm:px-7">
-          <div class="text-center">
-            <p class="text-[10px] font-semibold uppercase tracking-[0.28em] text-gold">Chapter 07</p>
-            <h3 class="mt-1.5 font-display text-2xl font-bold text-maroon">A Note For You</h3>
-            <div class="mx-auto my-4 h-px w-14 bg-gold/45"></div>
-          </div>
-
-          <!-- EDIT YOUR HEARTFELT NOTE HERE -->
-          <div class="space-y-4 text-left text-[14.5px] leading-[1.85] text-espresso/90">
-            <p>
-              If someone had told me in Kedarnath that a chance meeting in the mountains would lead us all the way to our Roka, I would have smiled and hoped it was true—and somehow, life made it even better than I imagined.
-            </p>
-            <p>
-              From trekking down under the moon wishing for two chairs and two cups of chai, to travelling all the way to Gwalior just to sit across from you, to Dalhousie, Khajjiar, Chakrata, and our quiet Punchgaon evenings—every single mile with you has felt effortless. I love our unfiltered madness, our handmade macramé, the cardboard ring I’ll treasure forever, and even the rare, peaceful minutes when the demon is finally asleep.
-            </p>
-            <p>
-              Today, as we officially begin forever with our families’ blessings, I promise to always be your steady ground and your partner in every unplanned adventure. Thank you for choosing me, for bringing so much warmth into my life, and for walking into this next chapter hand in hand as <span class="font-semibold text-maroon">#2awaare</span>.
-            </p>
-          </div>
-
-          <div class="mt-7 text-right">
-            <p class="font-hand text-3xl font-semibold text-maroon">— Always yours, H</p>
-          </div>
-          <!-- END OF HEARTFELT NOTE -->
-        </div>
-      </div>
-    </section>
-
-    <!-- =========================================================
-         10. CHAPTER 8 — TURN YOUR VOLUME UP (Audio Message)
-             Wired to: audio.m4a
-    ========================================================== -->
-    <section class="reveal mb-14">
-      <div class="overflow-hidden rounded-[26px] border border-gold/45 bg-parchment p-6 text-center shadow-card">
-        <p class="text-[10px] font-semibold uppercase tracking-[0.28em] text-gold">Chapter 08 • Voice Note</p>
-        <h3 class="mt-1 font-display text-2xl font-bold text-maroon">Turn Your Volume Up</h3>
-        <p class="mt-1 font-hand text-2xl text-muted">Tap play to hear a message from me</p>
-
-        <!-- Animated Dancing Waveform Bars -->
-        <div id="waveform" class="mx-auto my-6 flex h-8 items-center justify-center gap-1.5" aria-hidden="true">
-          <span class="eq-bar"></span>
-          <span class="eq-bar"></span>
-          <span class="eq-bar"></span>
-          <span class="eq-bar"></span>
-          <span class="eq-bar"></span>
-          <span class="eq-bar"></span>
-          <span class="eq-bar"></span>
-          <span class="eq-bar"></span>
-          <span class="eq-bar"></span>
-          <span class="eq-bar"></span>
-          <span class="eq-bar"></span>
-          <span class="eq-bar"></span>
-        </div>
-
-        <!-- Custom Maroon & Gold Player Controls -->
-        <div class="flex items-center gap-4 rounded-2xl border border-sand bg-ivory p-4">
-          <button
-            id="playBtn"
-            type="button"
-            class="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-maroon text-ivory shadow-md transition-transform duration-200 hover:bg-maroonDark active:scale-95 focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2"
-            aria-label="Play audio message"
-          >
-            <svg id="playIcon" class="ml-0.5 h-6 w-6" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-              <path d="M8 5.14v14l11-7-11-7z" />
-            </svg>
-            <svg id="pauseIcon" class="hidden h-6 w-6" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-              <path d="M6 5h4v14H6V5zm8 0h4v14h-4V5z" />
-            </svg>
-          </button>
-
-          <div class="flex-1 text-left">
-            <input type="range" id="seekBar" value="0" min="0" max="100" step="0.1" aria-label="Audio progress" />
-            <div class="mt-1.5 flex items-center justify-between text-[11px] font-medium text-muted">
-              <span id="currentTime">0:00</span>
-              <span id="duration">0:00</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Gentle Inline Hint if audio.m4a is not uploaded yet -->
-        <p id="audioHint" role="status" aria-live="polite" class="mt-4 hidden rounded-xl border border-gold/35 bg-ivory px-3.5 py-2.5 text-xs text-maroon">
-          Drop your voice note named <span class="font-semibold">audio.m4a</span> into the same folder to hear it play here.
-        </p>
-
-        <audio id="voiceNote" src="audio.m4a" preload="metadata"></audio>
-      </div>
-    </section>
-
-    <!-- =========================================================
-         11. CHAPTER 9 — ONE MORE THING… (Video Note)
-             Wired to: video.mp4 (poster: 16.jpg)
-    ========================================================== -->
-    <section class="reveal mb-14">
-      <div class="overflow-hidden rounded-[26px] border border-gold/45 bg-twilightDeep p-5 text-center shadow-twilight">
-        <p class="text-[10px] font-semibold uppercase tracking-[0.28em] text-goldSoft">Chapter 09 • Cinema Keepsake</p>
-        <h3 class="mt-1 font-display text-2xl font-bold text-ivory">One More Thing…</h3>
-        <p class="mt-1 font-hand text-2xl text-goldSoft/90">Press play when you’re ready</p>
-
-        <!-- Framed Cinema Video Container -->
-        <div class="mt-5 overflow-hidden rounded-[18px] border border-gold/40 bg-black shadow-inner">
-          <video
-            id="videoNote"
-            src="video.mp4"
-            controls
-            playsinline
-            preload="metadata"
-            poster="16.jpeg"
-            class="aspect-video w-full bg-black object-contain"
-          ></video>
-        </div>
-
-        <!-- Gentle Inline Hint if video.mp4 is not uploaded yet -->
-        <p id="videoHint" role="status" aria-live="polite" class="mt-3.5 hidden rounded-xl border border-gold/30 bg-twilight px-3.5 py-2.5 text-xs text-goldSoft">
-          Drop your video note named <span class="font-semibold">video.mp4</span> (under 25 MB) into the same folder to watch it here.
-        </p>
-      </div>
-    </section>
-
-    <!-- =========================================================
-         12. FOOTER
-    ========================================================== -->
-    <footer class="reveal pb-6 pt-2 text-center">
-      <div class="mx-auto mb-5 flex items-center justify-center gap-3">
-        <span class="h-px w-12 bg-gold/45"></span>
-        <span class="h-1.5 w-1.5 rotate-45 bg-gold"></span>
-        <span class="h-px w-12 bg-gold/45"></span>
-      </div>
-      <p class="font-display text-2xl font-bold tracking-tight text-maroon">#2awaare</p>
-      <p class="mt-1.5 text-xs font-semibold uppercase tracking-[0.26em] text-gold">K &amp; H • Forever Begins</p>
-    </footer>
+          <span>Lock Page</span>
+        </button>
+      </footer>
+    </div>
   </main>
 
-  <!-- =========================================================
-       TAP-TO-ZOOM FULL-SCREEN LIGHTBOX MODAL
-  ========================================================== -->
+  <!-- ===================================================================== -->
+  <!-- 4. FULL-SCREEN LIGHTBOX MODAL                                         -->
+  <!-- ===================================================================== -->
   <div
     id="lightboxModal"
-    class="hidden-modal fixed inset-0 z-50 flex flex-col items-center justify-center bg-espresso/95 p-4 backdrop-blur-sm"
+    class="fixed inset-0 z-50 hidden flex-col items-center justify-center bg-ink/92 p-4 backdrop-blur-sm transition-opacity duration-300"
     role="dialog"
     aria-modal="true"
-    aria-label="Full screen photo view"
+    aria-label="Full screen photo preview"
   >
     <button
-      id="lightboxClose"
+      id="lightboxCloseBtn"
       type="button"
-      class="absolute right-4 top-4 flex h-11 w-11 items-center justify-center rounded-full border border-goldSoft/40 bg-espresso/80 text-ivory transition-colors hover:bg-maroon focus:outline-none focus:ring-2 focus:ring-gold"
-      aria-label="Close photo"
+      aria-label="Close photo preview"
+      class="absolute top-4 right-4 flex h-11 w-11 items-center justify-center rounded-full border border-ivory/25 bg-ink/60 text-ivory transition hover:bg-maroon"
     >
-      <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <line x1="18" y1="6" x2="6" y2="18" />
-        <line x1="6" y1="6" x2="18" y2="18" />
+      <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
       </svg>
     </button>
 
-    <div class="flex max-h-[82vh] max-w-full flex-col items-center">
+    <div class="flex max-h-[85vh] w-full max-w-2xl flex-col items-center">
       <img
         id="lightboxImg"
         src=""
         alt=""
-        class="max-h-[72vh] max-w-full rounded-2xl border border-gold/35 object-contain shadow-2xl"
+        class="max-h-[74vh] w-auto max-w-full rounded-2xl border-4 border-ivory-card object-contain shadow-2xl"
       />
-      <p id="lightboxCaption" class="mt-4 max-w-md px-3 text-center font-hand text-2xl leading-snug text-ivory"></p>
+      <p id="lightboxCaption" class="mt-4 text-center font-serif text-lg text-ivory"></p>
     </div>
   </div>
 
-  <!-- =========================================================
-       INTERACTIVE SCRIPTS
-  ========================================================== -->
+  <!-- ===================================================================== -->
+  <!-- JAVASCRIPT LOGIC                                                      -->
+  <!-- ===================================================================== -->
   <script>
     (function () {
-      /* ---------------------------------------------------------
-         1. Wax Seal Welcome Overlay
-      ---------------------------------------------------------- */
-      const welcomeCover = document.getElementById('welcomeCover');
-      const openStoryBtn = document.getElementById('openStoryBtn');
-      const pageBody = document.getElementById('pageBody');
+      'use strict';
 
-      function openStory() {
-        welcomeCover.classList.add('opened');
-        pageBody.classList.remove('overflow-hidden');
-        setTimeout(checkInitialReveals, 160);
+      /* ------------------------------------------------------------------- */
+      /* 1. PRIVATE VAULT AUTHENTICATION (Offline-Safe Pure JS Obfuscation)  */
+      /* ------------------------------------------------------------------- */
+      const STORAGE_KEY = '2awaare_vault_unlocked_v1';
+
+      // Pure-JS deterministic credential signature (works offline via file:// and online via https://)
+      function encodeCredential(raw) {
+        const normalized = String(raw || '').trim().toLowerCase();
+        const codes = [];
+        for (let i = 0; i < normalized.length; i++) {
+          codes.push(normalized.charCodeAt(i) + i + 7);
+        }
+        return codes.join('-');
       }
 
-      openStoryBtn.addEventListener('click', openStory);
+      // Expected obfuscated signatures for Login ID & Password
+      const EXPECTED_ID_SIG = '106-112-120-118-112';
+      const EXPECTED_PW_SIG = '105-112-106-126-122-123-127-115';
 
-      /* ---------------------------------------------------------
-         2. Scroll-Reveal Animations (IntersectionObserver)
-      ---------------------------------------------------------- */
-      const revealEls = document.querySelectorAll('.reveal');
+      const loginScreen = document.getElementById('loginScreen');
+      const loginCard = document.getElementById('loginCard');
+      const loginForm = document.getElementById('loginForm');
+      const loginIdInput = document.getElementById('loginId');
+      const loginPasswordInput = document.getElementById('loginPassword');
+      const keepSignedInCheckbox = document.getElementById('keepSignedIn');
+      const loginError = document.getElementById('loginError');
+      const togglePasswordBtn = document.getElementById('togglePasswordBtn');
+      const eyeOpenIcon = document.getElementById('eyeOpenIcon');
+      const eyeClosedIcon = document.getElementById('eyeClosedIcon');
 
-      const revealObserver = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('visible');
-              revealObserver.unobserve(entry.target);
-            }
-          });
-        },
-        { threshold: 0.1, rootMargin: '0px 0px -24px 0px' }
-      );
+      const waxSealScreen = document.getElementById('waxSealScreen');
+      const waxSealBtn = document.getElementById('waxSealBtn');
+      const mainContent = document.getElementById('mainContent');
+      const lockPageBtn = document.getElementById('lockPageBtn');
 
-      revealEls.forEach((el) => revealObserver.observe(el));
+      function safeGetStorage(key) {
+        try {
+          return window.localStorage.getItem(key);
+        } catch (err) {
+          return null;
+        }
+      }
 
-      function checkInitialReveals() {
-        revealEls.forEach((el) => {
-          const rect = el.getBoundingClientRect();
-          if (rect.top < window.innerHeight * 0.94) {
-            el.classList.add('visible');
+      function safeSetStorage(key, val) {
+        try {
+          window.localStorage.setItem(key, val);
+        } catch (err) {
+          // Ignore storage errors in private/restricted browsing modes
+        }
+      }
+
+      function safeRemoveStorage(key) {
+        try {
+          window.localStorage.removeItem(key);
+        } catch (err) {
+          // Ignore storage errors
+        }
+      }
+
+      // Show Wax Seal overlay smoothly
+      function showWaxSeal(skipFade) {
+        if (skipFade) {
+          loginScreen.classList.add('hidden');
+          waxSealScreen.classList.remove('hidden');
+          waxSealScreen.classList.add('flex', 'opacity-100');
+          return;
+        }
+        loginScreen.classList.add('opacity-0', 'pointer-events-none');
+        setTimeout(() => {
+          loginScreen.classList.add('hidden');
+          waxSealScreen.classList.remove('hidden', 'opacity-0', 'pointer-events-none');
+          waxSealScreen.classList.add('flex');
+          // Trigger reflow for fade-in
+          void waxSealScreen.offsetWidth;
+          waxSealScreen.classList.add('opacity-100');
+        }, 550);
+      }
+
+      // Check if device is already remembered on load
+      if (safeGetStorage(STORAGE_KEY) === 'true') {
+        showWaxSeal(true);
+      }
+
+      // Password show/hide toggle
+      togglePasswordBtn.addEventListener('click', () => {
+        const isPassword = loginPasswordInput.type === 'password';
+        loginPasswordInput.type = isPassword ? 'text' : 'password';
+        eyeOpenIcon.classList.toggle('hidden', isPassword);
+        eyeClosedIcon.classList.toggle('hidden', !isPassword);
+        togglePasswordBtn.setAttribute('aria-label', isPassword ? 'Hide password' : 'Show password');
+      });
+
+      // Handle Login Form submission
+      loginForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const enteredIdSig = encodeCredential(loginIdInput.value);
+        const enteredPwSig = encodeCredential(loginPasswordInput.value);
+
+        if (enteredIdSig === EXPECTED_ID_SIG && enteredPwSig === EXPECTED_PW_SIG) {
+          loginError.classList.add('hidden');
+          if (keepSignedInCheckbox.checked) {
+            safeSetStorage(STORAGE_KEY, 'true');
+          } else {
+            safeRemoveStorage(STORAGE_KEY);
+          }
+          showWaxSeal(false);
+        } else {
+          loginError.classList.remove('hidden');
+          loginCard.classList.remove('animate-shake');
+          void loginCard.offsetWidth; // Force reflow to replay animation
+          loginCard.classList.add('animate-shake');
+        }
+      });
+
+      // Wax Seal tap -> reveal main keepsake page
+      waxSealBtn.addEventListener('click', () => {
+        waxSealScreen.classList.add('opacity-0', 'pointer-events-none');
+        mainContent.classList.remove('hidden');
+        setTimeout(() => {
+          waxSealScreen.classList.add('hidden');
+          waxSealScreen.classList.remove('flex');
+          mainContent.classList.remove('opacity-0');
+          mainContent.classList.add('opacity-100');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }, 550);
+      });
+
+      // Lock Page button in footer -> clear storage & return to Vault Login
+      lockPageBtn.addEventListener('click', () => {
+        safeRemoveStorage(STORAGE_KEY);
+
+        // Pause media if currently playing
+        const audioEl = document.getElementById('voiceNoteAudio');
+        const videoEl = document.getElementById('videoNote');
+        if (audioEl && !audioEl.paused) audioEl.pause();
+        if (videoEl && !videoEl.paused) videoEl.pause();
+
+        mainContent.classList.add('opacity-0');
+        setTimeout(() => {
+          mainContent.classList.add('hidden');
+          waxSealScreen.classList.add('hidden');
+          waxSealScreen.classList.remove('flex', 'opacity-0', 'pointer-events-none');
+
+          loginIdInput.value = '';
+          loginPasswordInput.value = '';
+          loginPasswordInput.type = 'password';
+          eyeOpenIcon.classList.remove('hidden');
+          eyeClosedIcon.classList.add('hidden');
+          loginError.classList.add('hidden');
+
+          loginScreen.classList.remove('hidden', 'opacity-0', 'pointer-events-none');
+          window.scrollTo({ top: 0 });
+        }, 350);
+      });
+
+      /* ------------------------------------------------------------------- */
+      /* 2. ALL 17 POLAROID MEMORIES DATA (.jpeg)                            */
+      /* ------------------------------------------------------------------- */
+      const memories = {
+        chapter1: [
+          {
+            src: '1.jpeg',
+            title: 'Where It All Began (Row by Row)',
+            note: "I never knew this trek would turn out to be the best trek of my life. One lucky seat next to you on the bus, and suddenly the mountains weren't the only thing taking my breath away.",
+          },
+          {
+            src: '2.jpeg',
+            title: 'Two Chairs, Two Cups of Chai',
+            note: 'Walking down under that bright moon, we wished for two chairs and two cups of tea. Little did I know, I was looking at the person I’d want to share every cup with for the rest of my life.',
+          },
+        ],
+        chapter2: [
+          {
+            src: '3.jpeg',
+            title: 'Twinning in Black & Railway Station Jitters',
+            note: 'You picked me up on your scooty while my heart was racing a mile a minute, and we showed up accidentally matching in black. Between Gurudwara blessings, roaming Gwalior, and holding hands at the movies, my nervousness turned into pure magic.',
+          },
+          {
+            src: '4.jpeg',
+            title: 'Bateshwar, Farzi Cafe & An Unspoken Wish',
+            note: 'From the quiet calm of Bateshwar Temple to the buzz of Farzi Cafe, I spent the whole day trying to muster up the courage to kiss you. I chickened out that day, but I knew right then I was completely falling for you.',
+          },
+        ],
+        chapter3: [
+          {
+            src: '5.jpeg',
+            title: 'Proof That We Are Weirdos',
+            note: 'Filtering out the serious, aesthetic couple photos to remind you why we actually work. Nobody else matches my exact brand of crazy like you do.',
+          },
+          {
+            src: '6.jpeg',
+            title: 'Shh... The Demon Is Recharging',
+            note: 'Approach with extreme caution—the demon is sleeping, do not disturb! Honestly though, even in full hibernation mode, you’re still my favorite view.',
+          },
+          {
+            src: '12.jpeg',
+            title: 'Sleeping Demon: Part II',
+            note: 'Caught in the act again—disturb at your own risk! If sleeping through road trips were an Olympic sport, you’d bring home the gold every single time.',
+          },
+          {
+            src: '15.jpeg',
+            title: 'Deed before the act',
+            note: 'In this photo, i was practicing proposing you and i am glad i did.',
+          },
+        ],
+        chapter4: [
+          {
+            src: '7.jpeg',
+            title: 'First Birthday Together, lifetime to go',
+            note: 'Thinking about you',
+          },
+          {
+            src: '8.jpeg',
+            title: 'Leveling Up Together',
+            note: 'Lost in You',
+          },
+          {
+            src: '9.jpeg',
+            title: 'Escaping the Chaos at Punchgaon',
+            note: 'I was very excited to take you to my favourite place in gurgaon, Punchgoan, and i am glad that we enjoyed.',
+          },
+          {
+            src: '10.jpeg',
+            title: 'Breaking the Rules for K & H',
+            note: 'We were supposed to weave leaves, so naturally I hijacked the workshop to make a "K" while you made an "H." Rules are meant to be broken when you’re secretly crafting each other’s initials.',
+          },
+        ],
+        chapter5: [
+          {
+            src: '11.jpeg',
+            title: 'Pine Trees & Mountain Breeze in Dalhousie',
+            note: 'Cold air, winding roads, and you right next to me—some places just hit differently when we’re together. Adding Dalhousie to our growing list of mountains conquered.',
+          },
+          {
+            src: '13.jpeg',
+            title: 'Mini Switzerland, Full Hearts',
+            note: 'Surrounded by endless green meadows in Khajjiar, yet you were still the best scenery in the frame. Every trip with you just feels effortless.',
+          },
+          {
+            src: '14.jpeg',
+            title: 'Quiet Trails in Chakrata',
+            note: 'This is our first trip together with our group, and i am glad it turned out to be one of the finest experiences.',
+          },
+        ],
+        chapter6: [
+          {
+            src: '16.jpeg',
+            title: 'No Roka Without a Ring!',
+            note: 'You said no Roka until I properly proposed—so Rishikesh had to witness me getting down on one knee. Best "yes" of my entire life.',
+          },
+          {
+            src: '17.jpeg',
+            title: '18-Karat Gold vs. Custom Cardboard',
+            note: 'I brought the gold ring to Rishikesh, and you matched my energy with a handcrafted cardboard masterpiece. Honestly, The i loved it.',
+          },
+        ],
+      };
+
+      /* ------------------------------------------------------------------- */
+      /* 3. BUILD 3D TAP-TO-FLIP POLAROID CARDS                              */
+      /* ------------------------------------------------------------------- */
+      function buildPlaceholderUrl(title) {
+        const label = encodeURIComponent(title.slice(0, 28));
+        return `https://placehold.co/600x750/FAF6F0/6B1D2F?text=${label}`;
+      }
+
+      function createPolaroidCard(item, isCarouselSlide) {
+        const wrapper = document.createElement('article');
+        wrapper.className = isCarouselSlide
+          ? 'flip-card w-[84%] max-w-[340px] flex-shrink-0 snap-center'
+          : 'flip-card w-full';
+        wrapper.setAttribute('tabindex', '0');
+        wrapper.setAttribute('role', 'button');
+        wrapper.setAttribute('aria-label', `${item.title}. Tap to flip and read the note.`);
+
+        const placeholderUrl = buildPlaceholderUrl(item.title);
+
+        wrapper.innerHTML = `
+          <div class="flip-card-inner">
+            <!-- FRONT SIDE -->
+            <div class="flip-card-front relative rounded-2xl border border-gold-soft bg-ivory-card p-3 pb-5 shadow-[0_10px_28px_rgba(107,29,47,0.08)]">
+              <div class="relative overflow-hidden rounded-xl bg-ivory">
+                <img
+                  src="${item.src}"
+                  alt="${item.title.replace(/"/g, '&quot;')}"
+                  loading="lazy"
+                  class="aspect-[4/5] w-full object-cover transition duration-500"
+                  onerror="this.onerror=null; this.src='${placeholderUrl}';"
+                />
+                <!-- Top-Right Expand / Zoom Lightbox Button -->
+                <button
+                  type="button"
+                  class="expand-btn absolute top-2.5 right-2.5 flex h-9 w-9 items-center justify-center rounded-full bg-ink/55 text-ivory backdrop-blur-sm transition hover:bg-maroon active:scale-95"
+                  aria-label="Expand photo: ${item.title.replace(/"/g, '&quot;')}"
+                >
+                  <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
+                  </svg>
+                </button>
+              </div>
+
+              <div class="mt-4 px-1 text-center">
+                <h3 class="font-serif text-lg font-semibold leading-snug text-maroon">${item.title}</h3>
+                <p class="mt-2 text-[11px] font-medium tracking-wider text-gold/85">Tap to flip ↻</p>
+              </div>
+            </div>
+
+            <!-- BACK SIDE (Cream Stationery with Gold Inner Border) -->
+            <div class="flip-card-back flex flex-col justify-between rounded-2xl border border-gold-bright/50 bg-ivory-card p-3 shadow-[0_10px_28px_rgba(107,29,47,0.1)]">
+              <div class="flex h-full flex-col justify-between rounded-xl border border-gold-bright/40 bg-ivory/65 px-5 py-6 text-center">
+                <div>
+                  <span class="inline-block text-[10px] font-semibold tracking-[0.26em] text-gold uppercase">#2awaare Memory</span>
+                  <h4 class="mt-1.5 font-serif text-lg font-bold leading-snug text-maroon">${item.title}</h4>
+                  <div class="mx-auto my-3 h-px w-12 bg-gold-bright/60"></div>
+                </div>
+
+                <p class="my-auto text-sm leading-relaxed text-ink/90 sm:text-[15px]">
+                  ${item.note}
+                </p>
+
+                <p class="mt-4 text-[11px] font-medium tracking-wider text-gold">
+                  Tap to flip back ↻
+                </p>
+              </div>
+            </div>
+          </div>
+        `;
+
+        // Toggle 3D flip on click or Enter/Space
+        wrapper.addEventListener('click', () => {
+          wrapper.classList.toggle('is-flipped');
+        });
+        wrapper.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            wrapper.classList.toggle('is-flipped');
+          }
+        });
+
+        // Expand button opens full-screen lightbox without flipping card
+        const expandBtn = wrapper.querySelector('.expand-btn');
+        const imgEl = wrapper.querySelector('img');
+        expandBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          openLightbox(imgEl.currentSrc || item.src, item.title);
+        });
+
+        return wrapper;
+      }
+
+      // Render each chapter into its grid/carousel
+      memories.chapter1.forEach((m) => document.getElementById('chapter1Grid').appendChild(createPolaroidCard(m, false)));
+      memories.chapter2.forEach((m) => document.getElementById('chapter2Grid').appendChild(createPolaroidCard(m, false)));
+      memories.chapter3.forEach((m) => document.getElementById('chapter3Grid').appendChild(createPolaroidCard(m, false)));
+      memories.chapter4.forEach((m) => document.getElementById('chapter4Grid').appendChild(createPolaroidCard(m, false)));
+      memories.chapter5.forEach((m) => document.getElementById('tripsCarousel').appendChild(createPolaroidCard(m, true)));
+      memories.chapter6.forEach((m) => document.getElementById('chapter6Grid').appendChild(createPolaroidCard(m, false)));
+
+      /* ------------------------------------------------------------------- */
+      /* 4. CHAPTER V CAROUSEL PAGINATION DOTS SYNC                          */
+      /* ------------------------------------------------------------------- */
+      const tripsCarousel = document.getElementById('tripsCarousel');
+      const carouselDots = Array.from(document.querySelectorAll('.carousel-dot'));
+
+      function updateActiveDot(activeIndex) {
+        carouselDots.forEach((dot, idx) => {
+          if (idx === activeIndex) {
+            dot.classList.remove('w-2.5', 'bg-gold-bright/45');
+            dot.classList.add('w-7', 'bg-maroon');
+          } else {
+            dot.classList.remove('w-7', 'bg-maroon');
+            dot.classList.add('w-2.5', 'bg-gold-bright/45');
           }
         });
       }
 
-      /* ---------------------------------------------------------
-         3. Trips Polaroid Carousel Active Dots Sync
-      ---------------------------------------------------------- */
-      const carousel = document.getElementById('tripCarousel');
-      const dots = document.querySelectorAll('#carouselDots .dot');
+      tripsCarousel.addEventListener('scroll', () => {
+        const slides = Array.from(tripsCarousel.children);
+        if (!slides.length) return;
+        const carouselCenter = tripsCarousel.scrollLeft + tripsCarousel.clientWidth / 2;
+        let closestIdx = 0;
+        let minDistance = Infinity;
+        slides.forEach((slide, idx) => {
+          const slideCenter = slide.offsetLeft + slide.offsetWidth / 2;
+          const dist = Math.abs(carouselCenter - slideCenter);
+          if (dist < minDistance) {
+            minDistance = dist;
+            closestIdx = idx;
+          }
+        });
+        updateActiveDot(closestIdx);
+      }, { passive: true });
 
-      if (carousel && dots.length) {
-        carousel.addEventListener('scroll', () => {
-          const maxScroll = carousel.scrollWidth - carousel.clientWidth;
-          if (maxScroll <= 0) return;
-          const ratio = carousel.scrollLeft / maxScroll;
-          const activeIndex = Math.min(
-            dots.length - 1,
-            Math.max(0, Math.round(ratio * (dots.length - 1)))
-          );
+      carouselDots.forEach((dot, idx) => {
+        dot.addEventListener('click', () => {
+          const slide = tripsCarousel.children[idx];
+          if (slide) {
+            slide.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+            updateActiveDot(idx);
+          }
+        });
+      });
 
-          dots.forEach((dot, idx) => {
-            if (idx === activeIndex) {
-              dot.classList.remove('w-2', 'bg-gold/40');
-              dot.classList.add('w-6', 'bg-maroon');
-            } else {
-              dot.classList.remove('w-6', 'bg-maroon');
-              dot.classList.add('w-2', 'bg-gold/40');
-            }
-          });
-        }, { passive: true });
-      }
-
-      /* ---------------------------------------------------------
-         4. Tap-to-Zoom Lightbox Modal
-      ---------------------------------------------------------- */
+      /* ------------------------------------------------------------------- */
+      /* 5. FULL-SCREEN LIGHTBOX                                             */
+      /* ------------------------------------------------------------------- */
       const lightboxModal = document.getElementById('lightboxModal');
       const lightboxImg = document.getElementById('lightboxImg');
       const lightboxCaption = document.getElementById('lightboxCaption');
-      const lightboxClose = document.getElementById('lightboxClose');
-      const zoomableImages = document.querySelectorAll('img.zoomable');
+      const lightboxCloseBtn = document.getElementById('lightboxCloseBtn');
 
-      function openLightbox(imgEl) {
-        lightboxImg.src = imgEl.currentSrc || imgEl.src;
-        lightboxImg.alt = imgEl.alt || '';
-        lightboxCaption.textContent = imgEl.dataset.caption || imgEl.alt || '';
-        lightboxModal.classList.remove('hidden-modal');
-        pageBody.classList.add('overflow-hidden');
+      function openLightbox(src, caption) {
+        lightboxImg.src = src;
+        lightboxImg.alt = caption;
+        lightboxCaption.textContent = caption;
+        lightboxModal.classList.remove('hidden');
+        lightboxModal.classList.add('flex');
+        document.body.style.overflow = 'hidden';
       }
 
       function closeLightbox() {
-        lightboxModal.classList.add('hidden-modal');
-        if (welcomeCover.classList.contains('opened')) {
-          pageBody.classList.remove('overflow-hidden');
-        }
+        lightboxModal.classList.add('hidden');
+        lightboxModal.classList.remove('flex');
+        document.body.style.overflow = '';
       }
 
-      zoomableImages.forEach((img) => {
-        img.addEventListener('click', () => openLightbox(img));
-      });
-
-      lightboxClose.addEventListener('click', closeLightbox);
+      lightboxCloseBtn.addEventListener('click', closeLightbox);
       lightboxModal.addEventListener('click', (e) => {
         if (e.target === lightboxModal) closeLightbox();
       });
       document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && !lightboxModal.classList.contains('hidden-modal')) {
+        if (e.key === 'Escape' && !lightboxModal.classList.contains('hidden')) {
           closeLightbox();
         }
       });
 
-      /* ---------------------------------------------------------
-         5. Audio Player & Video Note (With Mutual Pause + Hints)
-      ---------------------------------------------------------- */
-      const audio = document.getElementById('voiceNote');
-      const video = document.getElementById('videoNote');
-      const playBtn = document.getElementById('playBtn');
+      /* ------------------------------------------------------------------- */
+      /* 6. CUSTOM 16-BAR AUDIO PLAYER (audio.m4a)                           */
+      /* ------------------------------------------------------------------- */
+      const audioCard = document.getElementById('audioCard');
+      const audioEl = document.getElementById('voiceNoteAudio');
+      const audioPlayBtn = document.getElementById('audioPlayBtn');
       const playIcon = document.getElementById('playIcon');
       const pauseIcon = document.getElementById('pauseIcon');
-      const waveform = document.getElementById('waveform');
-      const seekBar = document.getElementById('seekBar');
-      const currentTimeEl = document.getElementById('currentTime');
-      const durationEl = document.getElementById('duration');
-      const audioHint = document.getElementById('audioHint');
-      const videoHint = document.getElementById('videoHint');
+      const audioSeek = document.getElementById('audioSeek');
+      const audioCurrentTime = document.getElementById('audioCurrentTime');
+      const audioDuration = document.getElementById('audioDuration');
+      const audioStatusMsg = document.getElementById('audioStatusMsg');
+      const waveformBars = document.getElementById('waveformBars');
 
-      let audioAvailable = true;
+      // Generate 16 golden/maroon waveform bars with varied heights & animation delays
+      const barHeights = [40, 68, 52, 86, 95, 62, 78, 100, 84, 58, 92, 74, 48, 80, 60, 42];
+      barHeights.forEach((pct, idx) => {
+        const bar = document.createElement('span');
+        const isMaroon = idx % 3 === 0;
+        bar.className = `wave-bar flex-1 rounded-full ${isMaroon ? 'bg-maroon' : 'bg-gold-bright'}`;
+        bar.style.height = `${pct}%`;
+        bar.style.animationDelay = `${(idx * 0.08).toFixed(2)}s`;
+        waveformBars.appendChild(bar);
+      });
 
       function formatTime(sec) {
-        if (!isFinite(sec) || isNaN(sec)) return '0:00';
+        if (!Number.isFinite(sec) || sec < 0) return '0:00';
         const m = Math.floor(sec / 60);
         const s = Math.floor(sec % 60).toString().padStart(2, '0');
-        return m + ':' + s;
+        return `${m}:${s}`;
       }
 
-      function setPlayingUI(isPlaying) {
-        if (isPlaying) {
-          playIcon.classList.add('hidden');
-          pauseIcon.classList.remove('hidden');
-          waveform.classList.add('playing');
-          playBtn.setAttribute('aria-label', 'Pause audio message');
-        } else {
-          playIcon.classList.remove('hidden');
-          pauseIcon.classList.add('hidden');
-          waveform.classList.remove('playing');
-          playBtn.setAttribute('aria-label', 'Play audio message');
-        }
+      function setPlayingUI(playing) {
+        playIcon.classList.toggle('hidden', playing);
+        pauseIcon.classList.toggle('hidden', !playing);
+        audioCard.classList.toggle('is-playing', playing);
+        audioPlayBtn.setAttribute('aria-label', playing ? 'Pause voice message' : 'Play voice message');
       }
 
-      audio.addEventListener('error', () => {
-        audioAvailable = false;
+      audioEl.addEventListener('loadedmetadata', () => {
+        audioDuration.textContent = formatTime(audioEl.duration);
+      });
+      audioEl.addEventListener('durationchange', () => {
+        audioDuration.textContent = formatTime(audioEl.duration);
       });
 
-      audio.addEventListener('loadedmetadata', () => {
-        audioAvailable = true;
-        audioHint.classList.add('hidden');
-        durationEl.textContent = formatTime(audio.duration);
-      });
-
-      audio.addEventListener('durationchange', () => {
-        if (audio.duration && isFinite(audio.duration)) {
-          durationEl.textContent = formatTime(audio.duration);
-        }
-      });
-
-      audio.addEventListener('timeupdate', () => {
-        if (audio.duration && isFinite(audio.duration)) {
-          seekBar.value = (audio.currentTime / audio.duration) * 100;
-          currentTimeEl.textContent = formatTime(audio.currentTime);
-        }
-      });
-
-      audio.addEventListener('ended', () => {
-        setPlayingUI(false);
-        seekBar.value = 0;
-        currentTimeEl.textContent = '0:00';
-      });
-
-      audio.addEventListener('pause', () => {
-        setPlayingUI(false);
-      });
-
-      playBtn.addEventListener('click', () => {
-        if (!audioAvailable || audio.error) {
-          audioHint.classList.remove('hidden');
-          return;
-        }
-
-        if (audio.paused) {
-          // Pause video note automatically if it is playing
-          if (video && !video.paused) {
-            video.pause();
-          }
-          const playPromise = audio.play();
+      audioPlayBtn.addEventListener('click', () => {
+        audioStatusMsg.classList.add('hidden');
+        if (audioEl.paused) {
+          const playPromise = audioEl.play();
           if (playPromise !== undefined) {
             playPromise
-              .then(() => {
-                audioHint.classList.add('hidden');
-                setPlayingUI(true);
-              })
+              .then(() => setPlayingUI(true))
               .catch(() => {
-                audioAvailable = false;
-                audioHint.classList.remove('hidden');
                 setPlayingUI(false);
+                audioStatusMsg.textContent = 'Upload your audio.m4a file alongside index.html to hear your voice note.';
+                audioStatusMsg.classList.remove('hidden');
               });
           } else {
             setPlayingUI(true);
           }
         } else {
-          audio.pause();
+          audioEl.pause();
           setPlayingUI(false);
         }
       });
 
-      seekBar.addEventListener('input', () => {
-        if (audio.duration && isFinite(audio.duration)) {
-          audio.currentTime = (seekBar.value / 100) * audio.duration;
+      audioEl.addEventListener('pause', () => setPlayingUI(false));
+      audioEl.addEventListener('ended', () => {
+        setPlayingUI(false);
+        audioSeek.value = 0;
+        audioCurrentTime.textContent = '0:00';
+      });
+
+      audioEl.addEventListener('timeupdate', () => {
+        if (audioEl.duration) {
+          audioSeek.value = (audioEl.currentTime / audioEl.duration) * 100;
+          audioCurrentTime.textContent = formatTime(audioEl.currentTime);
         }
       });
 
-      // Mutual Pause: Playing video automatically pauses audio note
-      if (video) {
-        video.addEventListener('play', () => {
-          if (!audio.paused) {
-            audio.pause();
-            setPlayingUI(false);
-          }
-        });
-
-        video.addEventListener('error', () => {
-          videoHint.classList.remove('hidden');
-        });
-      }
+      audioSeek.addEventListener('input', () => {
+        if (audioEl.duration) {
+          audioEl.currentTime = (audioSeek.value / 100) * audioEl.duration;
+        }
+      });
     })();
   </script>
 </body>
